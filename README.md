@@ -1,25 +1,22 @@
-# [Your Name] — AI/ML Portfolio
+# Vaibhav Khurana — AI Engineering Portfolio
 
-End-to-end data science, data engineering, and AI engineering projects across Financial, Healthcare, and Supply Chain domains. Every project ships as a Dockerized Flask service deployed to Azure, backed by real or research-grade data — not toy datasets.
+Production-shaped AI systems, retrieval applications, agents, and data platforms. Every portfolio project is independently versioned, evaluated, and released only when its implementation and public demonstration can be verified.
 
-## Stack
-Python · Flask · Docker · Azure (Container Apps, Data Factory, AI Search) · LangChain/LangGraph · Hugging Face · MLflow · GitHub Actions CI
+## Live projects
 
-## Projects
+| Project | Focus | Evidence |
+| --- | --- | --- |
+| [Legal Discovery Intelligence Graph](https://github.com/vaibhavkhuranaaa/legal-discovery-intelligence-graph) | Graph RAG investigation workspace with cited evidence | Reproducible evaluation, public demo, and synthetic-data disclosure |
+| [Legal Document Intelligence RAG](https://github.com/vaibhavkhuranaaa/legal-document-intelligence-rag) | Citation-grounded document Q&A over public legal material | Deterministic tests, public-source corpus, and Azure deployment |
 
-| Project | Industry | Role Focus | One-liner |
-|---|---|---|---|
-| [financial-payments-fraud-pipeline](https://github.com/vaibhavkhuranaaa/financial-payments-fraud-pipeline) | Financial | Data Engineer | Streaming payments fraud detection on IBM's TabFormer transaction dataset (Kafka-style ingestion, real-time scoring) |
-| [financial-aml-graph-detection](https://github.com/vaibhavkhuranaaa/financial-aml-graph-detection) | Financial | Data Scientist / AI Engineer | Graph neural network for anti-money-laundering detection on the Elliptic Bitcoin transaction graph |
-| [healthcare-sepsis-prediction](https://github.com/vaibhavkhuranaaa/healthcare-sepsis-prediction) | Healthcare | Data Scientist | Early sepsis/ICU deterioration risk model trained on real de-identified MIMIC-IV ICU data |
-| [healthcare-phi-deidentification](https://github.com/vaibhavkhuranaaa/healthcare-phi-deidentification) | Healthcare | AI Engineer | Clinical text de-identification microservice (PHI redaction NER) trained on n2c2 de-id data |
-| [supplychain-predictive-maintenance](https://github.com/vaibhavkhuranaaa/supplychain-predictive-maintenance) | Supply Chain | Data Engineer | Remaining-useful-life prediction on NASA's C-MAPSS turbofan degradation benchmark |
-| [supplychain-disruption-agent](https://github.com/vaibhavkhuranaaa/supplychain-disruption-agent) | Supply Chain | AI Engineer | LangGraph agent monitoring GDELT real-time event data for supply-chain disruption risk |
+Other repositories are actively being strengthened and are intentionally not represented here as completed live products until their deployment, evaluation, and evidence are verified.
 
-## How this portfolio is organized
-Each project above is its own repository (see `GITHUB-SETUP.md` for how they were created) with a consistent structure: `src/`, `docker/`, `infra/`, `tests/`, and a `CLAUDE.md` that scopes the Claude Code subagent work for that repo. `_templates/` in this meta-repo holds the reusable `README.md` and `CLAUDE.md` skeletons used to bootstrap every project.
+## Delivery standards
 
-## Setup docs
-- [`GITHUB-SETUP.md`](./GITHUB-SETUP.md) — creating and configuring all repos
-- [`GIT-WORKFLOW.md`](./GIT-WORKFLOW.md) — day-to-day branch/commit/PR workflow
-- [`../BOOTSTRAP-PROMPT.md`](../BOOTSTRAP-PROMPT.md) — the prompt used with Claude Code to scaffold each repo
+Each serious project is expected to provide a reproducible local run, tests and evaluation evidence, an architecture diagram, safe data disclosures, a deployment path, monitoring, and an honest README. The private control plane tracks project charters, release gates, model evaluations, cost limits, and agent handoffs.
+
+## Repository guide
+
+- [`GITHUB-SETUP.md`](./GITHUB-SETUP.md) documents repository setup conventions.
+- [`GIT-WORKFLOW.md`](./GIT-WORKFLOW.md) documents branch and review practices.
+- [`_templates`](./_templates) contains reusable project-documentation templates.
