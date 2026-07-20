@@ -1,0 +1,36 @@
+name: Release approved portfolio
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_note:
+        description: Brief note describing the approved portfolio update
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    environment: production
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: npm test
+      - run: npm run lint
+      - run: npm run build
+        env:
+          PROJECT_MANIFEST_READ_TOKEN: ${{ secrets.PROJECT_MANIFEST_READ_TOKEN }}
+          SITE_URL: ${{ vars.SITE_URL }}
+          CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL }}
+          RESUME_URL: ${{ vars.RESUME_URL }}
+          SITE_OWNER: ${{ vars.SITE_OWNER }}
+          SITE_SOCIAL_URL: ${{ vars.SITE_SOCIAL_URL }}
+          REQUIRE_PUBLIC_SITE_CONFIG: true
+      - run: npx vercel@latest pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      - run: npx vercel@latest build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - run: npx vercel@latest deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

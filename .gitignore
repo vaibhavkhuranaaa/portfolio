@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Build-time project manifest snapshot (sourced from project repositories)
+/src/content/generated/
