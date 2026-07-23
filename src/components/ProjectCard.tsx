@@ -20,7 +20,7 @@ export default function ProjectCard({ project, featured = false }: { project: Pr
       </div>
       <div className="project-links">
         <Link href={`/projects/${project.slug}`}>View project <ArrowUpRightIcon aria-hidden size={16} weight="bold" /></Link>
-        <a href={project.githubUrl} target="_blank" rel="noreferrer">Source <GithubLogoIcon aria-hidden size={16} weight="bold" /></a>
+        {project.githubUrl && <a href={project.githubUrl} target="_blank" rel="noreferrer">Source <GithubLogoIcon aria-hidden size={16} weight="bold" /></a>}
         {project.liveUrl && <a className="project-live-link" href={project.liveUrl} target="_blank" rel="noreferrer">Live product <ArrowUpRightIcon aria-hidden size={16} weight="bold" /></a>}
       </div>
     </article>

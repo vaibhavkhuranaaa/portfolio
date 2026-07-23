@@ -1,46 +1,52 @@
 # Project release workflow
 
-The portfolio is deliberately a static Next.js export. Its public project list is controlled in this repository, not by an arbitrary push to a project repository.
+The portfolio is a static Next.js export. Public membership is controlled in this repository, not by a project push or a successful preview.
 
-## Green-light process
+## Approval and release
 
-1. Build the project and commit its `portfolio/project.json` in the project repository.
-2. Pin that commit's full SHA in `scripts/project-registry.mjs` with `portfolio.status: "draft"`.
-3. Run `npm test`, `npm run lint`, and `npm run build` locally. A project repository push can dispatch the `project-manifest-ready` event to request a Vercel preview.
-4. Review the project, disclosure, metrics, URLs, cover image, and the exact pinned SHA.
-5. Change the registry entry to `portfolio.status: "approved"`, add the approval date, set its sort order, and decide whether it is featured. Merge that reviewed portfolio change to `main`.
-6. Run **Release approved portfolio** from GitHub Actions. The protected `production` environment is the final green light and deploys the static `out/` folder to Vercel.
+1. Commit a validated `portfolio/project.json` in the project repository.
+2. Request an exact-SHA preview from that project. Preview does not change the public catalog.
+3. Pin the reviewed 40-character SHA in `scripts/project-registry.mjs` as `draft`.
+4. Review the disclosure, evidence, URLs, expiry, source link, résumé candidates, visuals, and limitations.
+5. Change the registry entry to `approved`, add its approval date, sort order, and featured decision.
+6. Merge the reviewed registry change to `main`.
+7. An owner approves the protected `production` environment and runs **Release approved portfolio**.
+8. The workflow builds once, deploys that prebuilt output, verifies the resulting URL, and stores a release-record artifact.
 
-Draft entries are not fetched, rendered, included in the sitemap, or included in the built static site.
+Draft entries remain absent from the synchronized snapshot, routes, sitemap, and consumer projections. A preview is included only when the repository-dispatch workflow supplies its exact source tuple.
+
+## Release safeguards
+
+The workflow:
+
+- refuses to run from a branch other than `main`,
+- serializes production releases,
+- pins the Vercel CLI version,
+- runs tests and lint before deployment,
+- performs one production build and deploys that prebuilt artifact,
+- captures the deployment URL,
+- verifies project pages, titles, source links, demo links, disclosures, sitemap membership, source SHAs, and expiry state,
+- writes an immutable workflow artifact with the source SHA, release note, deployment URL, and check results.
+
+`live-verified` is an observed result, not a registry label. The workspace orchestration core computes it only after the live profile and post-deployment checks pass. Failed verification blocks the release job and preserves its record. Rollback remains a separate owner-authorized Vercel action using the preceding successful deployment record.
 
 ## Required GitHub configuration
 
-Configure these portfolio-repository secrets:
+Secrets:
 
-- `PROJECT_MANIFEST_READ_TOKEN`: read-only fine-grained GitHub token for private project repositories, if needed.
-- `VERCEL_TOKEN`: Vercel token that can deploy this project.
+- `PROJECT_MANIFEST_READ_TOKEN`: optional read-only access to private source repositories.
+- `VERCEL_TOKEN`: production/preview deployment credential.
 
-Configure these repository variables:
+Repository variables:
 
 - `SITE_URL`
 - `CONTACT_EMAIL`
 - `SITE_OWNER` (optional)
 - `SITE_SOCIAL_URL` (optional)
+- `RESUME_URL` (optional)
 
-In GitHub Settings, create a `production` Environment and require approval before deployment. This protects the final Vercel deployment even after a registry approval PR is merged.
+Create a GitHub `production` Environment with required reviewer approval. Disable automatic production deploys for the connected Vercel branch; this workflow owns production release.
 
-## Required Vercel configuration
+## Deployment boundary
 
-1. Import the portfolio GitHub repository into Vercel.
-2. Disable automatic production deployments for the connected Git branch. GitHub Actions owns production release.
-3. Copy the Vercel project and organization IDs into repository secrets or let `vercel pull` associate the project on the first authenticated run.
-4. Keep the build output as `out`. Next.js produces it through `output: "export"`.
-
-## Project repository dispatch
-
-Copy `.github/workflows/project-manifest-dispatch.yml.example` to each project repository. Add:
-
-- `PORTFOLIO_REPOSITORY` repository variable, such as `vaibhavkhuranaaa/ai-data-portfolio`.
-- `PORTFOLIO_DISPATCH_TOKEN` fine-grained secret with repository dispatch permission for the portfolio repository.
-
-The dispatch only requests validation and a preview. It does not publish the project to production.
+Preview, production deployment, publication approval, and rollback are distinct actions. No project-side dispatch can approve a registry entry, deploy production, or mark a deployment live-verified.

@@ -1,4 +1,4 @@
-name: Preview a project manifest
+name: Preview an exact project manifest
 
 on:
   repository_dispatch:
@@ -7,6 +7,13 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: portfolio-preview-${{ github.event.client_payload.repository }}-${{ github.event.client_payload.ref }}
+  cancel-in-progress: true
+
+env:
+  VERCEL_CLI_VERSION: 48.10.0
+
 jobs:
   preview:
     runs-on: ubuntu-latest
@@ -14,12 +21,27 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
+      - name: Validate exact preview request
+        env:
+          PROJECT_PREVIEW_REPOSITORY: ${{ github.event.client_payload.repository }}
+          PROJECT_PREVIEW_SOURCE_REF: ${{ github.event.client_payload.ref }}
+          PROJECT_PREVIEW_MANIFEST_PATH: ${{ github.event.client_payload.manifest_path }}
+        run: |
+          node -e 'if (!/^[\\w.-]+\\/[\\w.-]+$/.test(process.env.PROJECT_PREVIEW_REPOSITORY ?? "")) throw new Error("Invalid repository")'
+          node -e 'if (!/^[0-9a-f]{40}$/.test(process.env.PROJECT_PREVIEW_SOURCE_REF ?? "")) throw new Error("Preview ref must be an exact SHA")'
+          node -e 'const value=process.env.PROJECT_PREVIEW_MANIFEST_PATH ?? ""; if (!/^portfolio\\/[A-Za-z0-9_./-]+\\.json$/.test(value) || value.includes("..")) throw new Error("Invalid manifest path")'
       - run: npm ci
       - run: npm test
       - run: npm run lint
-      - run: npm run build
+      - name: Configure Vercel preview
+        run: npx --yes vercel@${VERCEL_CLI_VERSION} pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build exact-SHA preview once
         env:
           PROJECT_MANIFEST_READ_TOKEN: ${{ secrets.PROJECT_MANIFEST_READ_TOKEN }}
-      - run: npx vercel@latest pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-      - run: npx vercel@latest build --token=${{ secrets.VERCEL_TOKEN }}
-      - run: npx vercel@latest deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+          PROJECT_PREVIEW_REPOSITORY: ${{ github.event.client_payload.repository }}
+          PROJECT_PREVIEW_SOURCE_REF: ${{ github.event.client_payload.ref }}
+          PROJECT_PREVIEW_MANIFEST_PATH: ${{ github.event.client_payload.manifest_path }}
+          PROJECT_PREVIEW_PROFILE: first-demo
+        run: npx --yes vercel@${VERCEL_CLI_VERSION} build --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy preview artifact
+        run: npx --yes vercel@${VERCEL_CLI_VERSION} deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
