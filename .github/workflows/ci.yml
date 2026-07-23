@@ -19,6 +19,8 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run lint
-      - run: npm run build
+      - name: Build from committed exact-SHA manifest fixtures
+        run: npm run build
         env:
-          PROJECT_MANIFEST_READ_TOKEN: ${{ secrets.PROJECT_MANIFEST_READ_TOKEN }}
+          PROJECT_MANIFEST_SOURCE_DIR: tests/fixtures/manifests
+          PROJECTION_GENERATED_AT: 2026-07-23T00:00:00.000Z
