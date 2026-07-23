@@ -6,7 +6,7 @@ Production-shaped AI systems, retrieval applications, agents, and data platforms
 
 <!-- approved-projects:start -->
 
-Generated from the approved portfolio catalog at `2026-07-23T20:00:00Z`. Project rows are not edited by hand.
+Generated from the approved portfolio catalog at `2026-07-23T21:10:29.377Z`. Project rows are not edited by hand.
 
 | Project | Focus | Deployment | Evidence | Source |
 | --- | --- | --- | --- | --- |
@@ -21,8 +21,4 @@ Other repositories are actively being strengthened and are intentionally not rep
 
 Each serious project is expected to provide a reproducible local run, tests and evaluation evidence, an architecture diagram, safe data disclosures, a deployment path, monitoring, and an honest README. The private control plane tracks project charters, release gates, model evaluations, cost limits, and agent handoffs.
 
-## Repository guide
-
-- [`GITHUB-SETUP.md`](./GITHUB-SETUP.md) documents repository setup conventions.
-- [`GIT-WORKFLOW.md`](./GIT-WORKFLOW.md) documents branch and review practices.
-- [`_templates`](./_templates) is deprecated and retained temporarily for parity review. Canonical templates live in `portfolio-os/templates/project-starters/`.
+Repository setup, Git policy, and canonical project templates are owned by `portfolio-os`; this repository contains only the human introduction and generated approved-project index.
