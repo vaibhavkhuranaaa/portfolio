@@ -2,12 +2,18 @@
 
 Production-shaped AI systems, retrieval applications, agents, and data platforms. Every portfolio project is independently versioned, evaluated, and released only when its implementation and public demonstration can be verified.
 
-## Live projects
+## Approved projects
 
-| Project | Focus | Evidence |
-| --- | --- | --- |
-| [Legal Discovery Intelligence Graph](https://github.com/vaibhavkhuranaaa/legal-discovery-intelligence-graph) | Graph RAG investigation workspace with cited evidence | Reproducible evaluation, public demo, and synthetic-data disclosure |
-| [Legal Document Intelligence RAG](https://github.com/vaibhavkhuranaaa/legal-document-intelligence-rag) | Citation-grounded document Q&A over public legal material | Deterministic tests, public-source corpus, and Azure deployment |
+<!-- approved-projects:start -->
+
+Generated from the approved portfolio catalog at `2026-07-23T20:00:00Z`. Project rows are not edited by hand.
+
+| Project | Focus | Deployment | Evidence | Source |
+| --- | --- | --- | --- | --- |
+| [Legal Document Intelligence RAG](https://github.com/vaibhavkhuranaaa/legal-document-intelligence-rag) | Citation-grounded answers over public Delaware M&A litigation, built end-to-end on Azure. | release-pending | 139 deterministic tests; 390 approved public chunks; Citation-required grounded generation | `60545cfc30ec` |
+| [Legal Discovery Intelligence Graph](https://github.com/vaibhavkhuranaaa/legal-discovery-intelligence-graph) | A deployed Graph RAG investigation workspace with cited evidence, entity graphs, and reproducible evaluation. | Live claim; verification profile required | Entity extraction F1 0.889 strict; Graph retrieval R@5 0.929; Graph relationship hit@5 0.833 | `8879c55997a4` |
+
+<!-- approved-projects:end -->
 
 Other repositories are actively being strengthened and are intentionally not represented here as completed live products until their deployment, evaluation, and evidence are verified.
 
@@ -19,4 +25,4 @@ Each serious project is expected to provide a reproducible local run, tests and 
 
 - [`GITHUB-SETUP.md`](./GITHUB-SETUP.md) documents repository setup conventions.
 - [`GIT-WORKFLOW.md`](./GIT-WORKFLOW.md) documents branch and review practices.
-- [`_templates`](./_templates) contains reusable project-documentation templates.
+- [`_templates`](./_templates) is deprecated and retained temporarily for parity review. Canonical templates live in `portfolio-os/templates/project-starters/`.
