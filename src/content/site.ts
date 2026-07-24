@@ -9,16 +9,20 @@ function optionalUrl(value: string | undefined) {
   }
 }
 
-const siteUrl = optionalUrl(process.env.SITE_URL) ?? "https://portfolio.example.com";
-const contactEmail = process.env.CONTACT_EMAIL ?? "hello@example.com";
+const deploymentUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : undefined;
+const siteUrl = optionalUrl(process.env.SITE_URL ?? deploymentUrl)
+  ?? "https://portfolio-reeper1.vercel.app";
+const contactEmail = process.env.CONTACT_EMAIL?.trim() || undefined;
 const requirePublicConfig = process.env.REQUIRE_PUBLIC_SITE_CONFIG === "true";
 const hostname = new URL(siteUrl).hostname;
 
 if (
   requirePublicConfig &&
-  (placeholderHosts.has(hostname) || contactEmail.endsWith("@example.com"))
+  (placeholderHosts.has(hostname) || contactEmail?.endsWith("@example.com"))
 ) {
-  throw new Error("SITE_URL and CONTACT_EMAIL must be configured with public values for production deployment.");
+  throw new Error("SITE_URL and CONTACT_EMAIL must not use placeholder values in production.");
 }
 
 export const siteConfig = {
