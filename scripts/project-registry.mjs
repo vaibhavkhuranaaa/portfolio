@@ -6,17 +6,17 @@
 export const projectRegistry = [
   {
     repository: "vaibhavkhuranaaa/legal-document-intelligence-rag",
-    sourceRef: "feeefeba500881f6624edf984340f618b2b41bb8",
+    sourceRef: "ec1853d200aa7f43ac16d909228b31876d8a648a",
     portfolio: { status: "approved", approvedAt: "2026-07-23", featured: false, sortOrder: 20 },
   },
   {
     repository: "vaibhavkhuranaaa/legal-discovery-intelligence-graph",
-    sourceRef: "c893da65f17121cf8616f1865f946efec2cf935d",
+    sourceRef: "d807df697e0e77274435b89008dd631a7cb391d3",
     portfolio: { status: "approved", approvedAt: "2026-07-19", featured: true, sortOrder: 10 },
   },
   {
     repository: "vaibhavkhuranaaa/text-to-sql-guardrails",
-    sourceRef: "9b05287ce2598ad82920fc1c1dd19c1b62aec3f9",
+    sourceRef: "3850aa48e3b40e2cd697f4fd902422efa28c593b",
     portfolio: { status: "approved", approvedAt: "2026-07-23", featured: false, sortOrder: 30 },
   },
 ];
