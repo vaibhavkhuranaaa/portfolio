@@ -1,5 +1,7 @@
 # Portfolio design brief
 
+This file is the canonical visual-language reference for every portfolio UI change. A change that conflicts with this file must either be corrected or accompanied by an explicitly reviewed update to this reference.
+
 ## Design read
 
 A recruiter-facing AI, data, and cloud portfolio with an editorial professional language. The visual system uses native CSS, a controlled asymmetric layout, and restrained motion to make technical work feel senior and credible.

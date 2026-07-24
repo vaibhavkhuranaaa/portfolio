@@ -53,3 +53,12 @@ npx --yes serve@14.2.4 out -l 3000
 4. Generate and save a project cover in both `assets/project-covers/` and `public/assets/project-covers/`.
 5. Run the checks above and review the Vercel preview.
 6. Change the entry to approved only after an explicit portfolio green light.
+# Stabilization checkpoint — 2026-07-23
+
+- Stable source-verification commit: `8648465979303db982cb185195c0d3b41777ccb5`
+- Rollback baseline: `bf99167900dfe0cc05a34c501b801770e5b0d5d3`
+- Approved output: Legal Discovery Intelligence Graph at `c893da65f17121cf8616f1865f946efec2cf935d`
+- Draft candidate: Legal Document Intelligence RAG at `feeefeba500881f6624edf984340f618b2b41bb8`; excluded while its GitHub source is private
+- Verification: 25 tests, lint, and fixture-backed static build passed
+- Next action: configure the owner-gated production prerequisites in `docs/production-readiness.md`; do not deploy from this checkpoint.
+- Rollback: review `git revert 8648465979303db982cb185195c0d3b41777ccb5` locally. Do not push or release without separate approval.
