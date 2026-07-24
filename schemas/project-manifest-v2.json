@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://portfolio.example.com/schemas/project-manifest-v2.json",
+  "title": "Portfolio project manifest v2",
+  "description": "The editable project evidence contract. Validation profiles decide which optional fields are required at each lifecycle gate.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "slug"],
+  "properties": {
+    "version": { "const": 2 },
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "title": { "$ref": "#/$defs/text" },
+    "summary": { "$ref": "#/$defs/text" },
+    "outcome": { "$ref": "#/$defs/text" },
+    "industries": { "$ref": "#/$defs/textArray" },
+    "categories": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "enum": ["AI/ML", "Analytics", "Data Engineering", "Cloud"] }
+    },
+    "stack": { "$ref": "#/$defs/textArray" },
+    "githubUrl": {
+      "type": ["string", "null"],
+      "format": "uri"
+    },
+    "liveUrl": {
+      "type": ["string", "null"],
+      "format": "uri"
+    },
+    "deployment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "exposure", "productionClaim"],
+      "properties": {
+        "provider": { "type": ["string", "null"], "minLength": 1 },
+        "status": { "enum": ["local", "temporary-demo", "release-pending", "live"] },
+        "runtime": { "type": ["string", "null"], "minLength": 1 },
+        "exposure": { "enum": ["private", "authenticated", "anonymous"] },
+        "productionClaim": { "type": "boolean" },
+        "verifiedAt": { "type": ["string", "null"], "format": "date-time" },
+        "expiresAt": { "type": ["string", "null"], "format": "date-time" },
+        "evidenceRefs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/evidenceId" }
+        }
+      }
+    },
+    "metrics": { "$ref": "#/$defs/textArray" },
+    "stages": { "$ref": "#/$defs/textArray" },
+    "architecture": { "$ref": "#/$defs/textArray" },
+    "evaluation": { "$ref": "#/$defs/textArray" },
+    "operationalTradeoffs": { "$ref": "#/$defs/textArray" },
+    "disclaimer": { "$ref": "#/$defs/text" },
+    "presentation": { "$ref": "#/$defs/presentation" },
+    "dataDisclosure": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": { "$ref": "#/$defs/text" },
+        "license": { "$ref": "#/$defs/text" },
+        "classification": {
+          "enum": ["public", "synthetic", "private", "confidential", "mixed"]
+        },
+        "permittedUse": { "$ref": "#/$defs/text" },
+        "includedFields": { "$ref": "#/$defs/textArray" },
+        "excludedFields": { "$ref": "#/$defs/textArray" },
+        "deployedArtifactContents": { "$ref": "#/$defs/textArray" }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "claim", "source", "method"],
+        "properties": {
+          "id": { "$ref": "#/$defs/evidenceId" },
+          "kind": {
+            "enum": ["test", "evaluation", "benchmark", "deployment", "security", "disclosure", "review"]
+          },
+          "claim": { "$ref": "#/$defs/text" },
+          "source": { "$ref": "#/$defs/text" },
+          "method": { "$ref": "#/$defs/text" },
+          "result": { "type": ["string", "number", "boolean", "null"] }
+        }
+      }
+    },
+    "story": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "recruiterSummary": { "$ref": "#/$defs/text" },
+        "technicalNarrative": { "$ref": "#/$defs/text" },
+        "scalabilityRoadmap": { "$ref": "#/$defs/textArray" },
+        "executiveSummary": { "$ref": "#/$defs/text" },
+        "intendedUser": { "$ref": "#/$defs/text" },
+        "example": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["title", "steps"],
+          "properties": {
+            "title": { "$ref": "#/$defs/text" },
+            "steps": { "$ref": "#/$defs/textArray" }
+          }
+        },
+        "technologyDecisions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["technology", "rationale", "alternative", "tradeoff"],
+            "properties": {
+              "technology": { "$ref": "#/$defs/text" },
+              "rationale": { "$ref": "#/$defs/text" },
+              "alternative": { "$ref": "#/$defs/text" },
+              "tradeoff": { "$ref": "#/$defs/text" }
+            }
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["value", "label", "context", "method"],
+            "properties": {
+              "value": { "$ref": "#/$defs/text" },
+              "label": { "$ref": "#/$defs/text" },
+              "context": { "$ref": "#/$defs/text" },
+              "method": { "$ref": "#/$defs/text" },
+              "evidenceRefs": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/evidenceId" }
+              }
+            }
+          }
+        },
+        "limitations": { "$ref": "#/$defs/textArray" }
+      }
+    },
+    "resume": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "bulletCandidates": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["role", "bullet", "evidenceRefs"],
+            "properties": {
+              "role": { "$ref": "#/$defs/text" },
+              "bullet": { "$ref": "#/$defs/text" },
+              "evidenceRefs": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/evidenceId" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "text": { "type": "string", "minLength": 1 },
+    "textArray": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/text" }
+    },
+    "evidenceId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:[._:-][a-z0-9]+)*$"
+    },
+    "asset": {
+      "type": "string",
+      "pattern": "^(?!.*(?:^|/)\\.\\.?/)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.(?:png|jpe?g|webp)$"
+    },
+    "presentation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "answer", "architecture"],
+      "properties": {
+        "question": { "$ref": "#/$defs/text" },
+        "answer": { "$ref": "#/$defs/text" },
+        "coverImage": { "$ref": "#/$defs/asset" },
+        "coverAlt": { "$ref": "#/$defs/text" },
+        "architecture": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label", "detail", "image"],
+            "properties": {
+              "label": { "$ref": "#/$defs/text" },
+              "detail": { "$ref": "#/$defs/text" },
+              "image": { "$ref": "#/$defs/asset" },
+              "alt": { "$ref": "#/$defs/text" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

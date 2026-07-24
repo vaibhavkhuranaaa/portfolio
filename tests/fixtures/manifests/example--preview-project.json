@@ -1,0 +1,76 @@
+{
+  "version": 2,
+  "slug": "preview-project",
+  "title": "Preview project",
+  "summary": "An exact-SHA project preview.",
+  "outcome": "A reviewable first demo.",
+  "industries": ["Enterprise"],
+  "categories": ["AI/ML"],
+  "stack": ["Python"],
+  "githubUrl": null,
+  "liveUrl": "https://preview-project.example.net",
+  "deployment": {
+    "provider": "Azure",
+    "status": "temporary-demo",
+    "runtime": "Container Apps",
+    "exposure": "anonymous",
+    "productionClaim": false,
+    "verifiedAt": "2026-07-23T18:00:00Z",
+    "expiresAt": "2027-07-23T18:00:00Z",
+    "evidenceRefs": ["deployment.smoke"]
+  },
+  "metrics": ["One successful smoke test"],
+  "stages": ["Input", "Guardrail", "Result"],
+  "architecture": ["Client", "API", "Evidence"],
+  "evaluation": ["A versioned smoke test verifies the anonymous demo."],
+  "operationalTradeoffs": ["The endpoint is temporary and non-production."],
+  "disclaimer": "Uses synthetic public demonstration data only.",
+  "dataDisclosure": {
+    "source": "Generated test records",
+    "license": "Project-owned synthetic data",
+    "classification": "synthetic",
+    "permittedUse": "Demonstration and evaluation",
+    "includedFields": ["aggregates"],
+    "excludedFields": ["direct identifiers"],
+    "deployedArtifactContents": ["application code", "synthetic fixtures"]
+  },
+  "evidence": [
+    {
+      "id": "deployment.smoke",
+      "kind": "deployment",
+      "claim": "The endpoint returned a successful response.",
+      "source": "evaluation/deployment.json",
+      "method": "HTTP smoke test",
+      "result": true
+    }
+  ],
+  "story": {
+    "recruiterSummary": "A guarded demonstration makes a risky workflow reviewable.",
+    "technicalNarrative": "The API validates input and returns traceable decisions.",
+    "scalabilityRoadmap": ["Add authenticated access before sustained use."],
+    "executiveSummary": "A bounded first demo with explicit operational limits.",
+    "intendedUser": "A technical reviewer.",
+    "example": {
+      "title": "Review a request",
+      "steps": ["Submit synthetic input", "Inspect the guarded result"]
+    },
+    "technologyDecisions": [
+      {
+        "technology": "Python",
+        "rationale": "It matches the evaluation stack.",
+        "alternative": "TypeScript",
+        "tradeoff": "Less browser code reuse."
+      }
+    ],
+    "evidence": [
+      {
+        "value": "pass",
+        "label": "deployment smoke test",
+        "context": "The temporary endpoint.",
+        "method": "HTTP request",
+        "evidenceRefs": ["deployment.smoke"]
+      }
+    ],
+    "limitations": ["Anonymous temporary demo; not a production claim."]
+  }
+}

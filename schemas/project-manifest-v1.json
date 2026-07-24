@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://portfolio.example.com/schemas/project-manifest-v1.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "slug", "title", "summary", "outcome", "industries", "categories", "stack", "githubUrl", "liveUrl", "deployment", "metrics", "stages", "architecture", "evaluation", "operationalTradeoffs", "disclaimer"],
+  "properties": {
+    "version": { "const": 1 },
+    "slug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "title": { "$ref": "#/$defs/nonEmptyString" },
+    "summary": { "$ref": "#/$defs/nonEmptyString" },
+    "outcome": { "$ref": "#/$defs/nonEmptyString" },
+    "industries": { "$ref": "#/$defs/nonEmptyStringArray" },
+    "categories": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["AI/ML", "Analytics", "Data Engineering", "Cloud"] } },
+    "stack": { "$ref": "#/$defs/nonEmptyStringArray" },
+    "githubUrl": { "type": "string", "format": "uri" },
+    "liveUrl": { "type": ["string", "null"], "format": "uri" },
+    "deployment": { "type": "object", "additionalProperties": false, "required": ["provider", "status", "runtime"], "properties": { "provider": { "$ref": "#/$defs/nonEmptyString" }, "status": { "enum": ["live", "release-pending"] }, "runtime": { "$ref": "#/$defs/nonEmptyString" } } },
+    "metrics": { "$ref": "#/$defs/nonEmptyStringArray" },
+    "stages": { "$ref": "#/$defs/nonEmptyStringArray" },
+    "architecture": { "$ref": "#/$defs/nonEmptyStringArray" },
+    "evaluation": { "$ref": "#/$defs/nonEmptyStringArray" },
+    "operationalTradeoffs": { "$ref": "#/$defs/nonEmptyStringArray" },
+    "disclaimer": { "$ref": "#/$defs/nonEmptyString" },
+    "presentation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "answer", "architecture"],
+      "properties": {
+        "question": { "$ref": "#/$defs/nonEmptyString" },
+        "answer": { "$ref": "#/$defs/nonEmptyString" },
+        "coverImage": { "$ref": "#/$defs/projectAssetPath" },
+        "coverAlt": { "$ref": "#/$defs/nonEmptyString" },
+        "architecture": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label", "detail", "image"],
+            "properties": {
+              "label": { "$ref": "#/$defs/nonEmptyString" },
+              "detail": { "$ref": "#/$defs/nonEmptyString" },
+              "image": { "$ref": "#/$defs/projectAssetPath" },
+              "alt": { "$ref": "#/$defs/nonEmptyString" }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1 },
+    "nonEmptyStringArray": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/nonEmptyString" } },
+    "projectAssetPath": { "type": "string", "pattern": "^(?!.*(?:^|/)\\.\\.?/)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.(?:png|jpe?g|webp)$" }
+  }
+}

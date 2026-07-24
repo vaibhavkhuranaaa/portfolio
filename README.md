@@ -1,25 +1,38 @@
-# [Your Name] — AI/ML Portfolio
+# AI + Data Science Portfolio
 
-End-to-end data science, data engineering, and AI engineering projects across Financial, Healthcare, and Supply Chain domains. Every project ships as a Dockerized Flask service deployed to Azure, backed by real or research-grade data — not toy datasets.
+A static-host-friendly Next.js portfolio for showcasing applied ML, LLM/AI, and analytics work to hiring managers.
 
-## Stack
-Python · Flask · Docker · Azure (Container Apps, Data Factory, AI Search) · LangChain/LangGraph · Hugging Face · MLflow · GitHub Actions CI
+## Run locally
 
-## Projects
+```bash
+npm install
+npm run sync-projects
+npm run dev
+```
 
-| Project | Industry | Role Focus | One-liner |
-|---|---|---|---|
-| [financial-payments-fraud-pipeline](https://github.com/vaibhavkhuranaaa/financial-payments-fraud-pipeline) | Financial | Data Engineer | Streaming payments fraud detection on IBM's TabFormer transaction dataset (Kafka-style ingestion, real-time scoring) |
-| [financial-aml-graph-detection](https://github.com/vaibhavkhuranaaa/financial-aml-graph-detection) | Financial | Data Scientist / AI Engineer | Graph neural network for anti-money-laundering detection on the Elliptic Bitcoin transaction graph |
-| [healthcare-sepsis-prediction](https://github.com/vaibhavkhuranaaa/healthcare-sepsis-prediction) | Healthcare | Data Scientist | Early sepsis/ICU deterioration risk model trained on real de-identified MIMIC-IV ICU data |
-| [healthcare-phi-deidentification](https://github.com/vaibhavkhuranaaa/healthcare-phi-deidentification) | Healthcare | AI Engineer | Clinical text de-identification microservice (PHI redaction NER) trained on n2c2 de-id data |
-| [supplychain-predictive-maintenance](https://github.com/vaibhavkhuranaaa/supplychain-predictive-maintenance) | Supply Chain | Data Engineer | Remaining-useful-life prediction on NASA's C-MAPSS turbofan degradation benchmark |
-| [supplychain-disruption-agent](https://github.com/vaibhavkhuranaaa/supplychain-disruption-agent) | Supply Chain | AI Engineer | LangGraph agent monitoring GDELT real-time event data for supply-chain disruption risk |
+Open `http://localhost:3000`.
 
-## How this portfolio is organized
-Each project above is its own repository (see `GITHUB-SETUP.md` for how they were created) with a consistent structure: `src/`, `docker/`, `infra/`, `tests/`, and a `CLAUDE.md` that scopes the Claude Code subagent work for that repo. `_templates/` in this meta-repo holds the reusable `README.md` and `CLAUDE.md` skeletons used to bootstrap every project.
+`sync-projects` fetches portfolio-approved project manifests pinned to exact commits in `scripts/project-registry.mjs`. A repository-dispatch preview may add one exact-SHA manifest to that preview build only. External manifests must exist before normal local development or deployment. For an offline preview using the checked-in validation fixtures:
 
-## Setup docs
-- [`GITHUB-SETUP.md`](./GITHUB-SETUP.md) — creating and configuring all repos
-- [`GIT-WORKFLOW.md`](./GIT-WORKFLOW.md) — day-to-day branch/commit/PR workflow
-- [`../BOOTSTRAP-PROMPT.md`](../BOOTSTRAP-PROMPT.md) — the prompt used with Claude Code to scaffold each repo
+```bash
+PROJECT_MANIFEST_SOURCE_DIR=tests/fixtures/manifests npm run sync-projects
+npm run dev
+```
+
+## Configure before publishing
+
+- Copy `.env.example` to `.env.local` and set the public site URL and contact email. Production deployment rejects placeholder values.
+- Add a real `portfolio/project.json` to a project repository, validate the appropriate v2 profile, and request an exact-SHA preview. Add a **draft** registry entry only after that review.
+- Promote the registry entry from `draft` to `approved` only after reviewing the exact commit. That is the portfolio green light.
+- Copy the dispatch-workflow template described in `docs/project-manifest-integration.md` into each project repository.
+- Keep confidential material generalized, and label any recorded or simulated demo clearly.
+
+## Quality checks
+
+```bash
+npm run lint
+npm run build
+npm test
+```
+
+The application has static project pages, `sitemap.xml`, `robots.txt`, a generated Open Graph image, and approved-only portfolio/résumé/index projection payloads. See `docs/project-release-workflow.md` for exact-SHA preview and protected production release.
