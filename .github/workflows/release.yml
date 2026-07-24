@@ -24,6 +24,8 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run lint
+      - name: Generate the exact verified catalog snapshot
+        run: npm run sync-projects
       - name: Wait for Vercel Git deployment of this commit
         run: |
           for attempt in $(seq 1 40); do
