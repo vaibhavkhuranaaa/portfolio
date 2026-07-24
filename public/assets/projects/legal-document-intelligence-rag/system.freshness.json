@@ -5,6 +5,6 @@
   "sourcePath": "architecture/system.mmd",
   "sourceSha256": "5fb592f5a52fc2544d68dee8b73e9c7a79e5f593e533b46496afcc056dff0ea6",
   "renderer": "@mermaid-js/mermaid-cli@11.12.0",
-  "svgSha256": "4d55428aca2aced985363fe244434e12c8ae6e7a8845b9e6c04ee2122a35a951",
-  "pngSha256": "95868056618cab3e083e2d14b37b8cbe2352e45b262dd53da5be1347e6e66ada"
+  "svgSha256": "c93b5c9a4773eb2003897b6993a6a6a3d78231d8a760a36c797aa11372a70a7f",
+  "pngSha256": "98ebf87091f64878253345a0c8504981165bb383d47622ed9742cc2591193518"
 }
