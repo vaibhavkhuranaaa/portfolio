@@ -8,6 +8,8 @@
     "dev": "next dev",
     "build": "next build",
     "sync-projects": "node scripts/sync-project-manifests.mjs",
+    "sync-live-projects": "node scripts/sync-live-projects.mjs",
+    "sync-public-index": "node scripts/sync-public-index.mjs",
     "architecture:sync": "node scripts/render-project-architectures.mjs",
     "start": "next start",
     "lint": "eslint",
