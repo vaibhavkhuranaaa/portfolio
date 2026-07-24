@@ -21,6 +21,8 @@ Copy `.github/workflows/project-manifest-dispatch.yml.example` into a project re
 
 The portfolio preview workflow fetches that exact tuple and validates the `first-demo` profile. The preview manifest is present only in the preview build. It is not inserted into `scripts/project-registry.mjs`, the normalized approved catalog, résumé data, or production output.
 
+When the candidate replaces an already-approved project, preview overlays that repository rather than adding a duplicate slug. The workflow renders `architecture/system.mmd` from the same candidate SHA before building the preview.
+
 Set `PORTFOLIO_REPOSITORY` as a repository variable and `PORTFOLIO_DISPATCH_TOKEN` as a fine-grained token secret permitted to create repository-dispatch events. The portfolio uses the read-only `PROJECT_MANIFEST_READ_TOKEN` when a source repository is private.
 
 ## Approved consumers

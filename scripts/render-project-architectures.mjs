@@ -15,6 +15,15 @@ import { projectRegistry } from "./project-registry.mjs";
 
 const renderer = "@mermaid-js/mermaid-cli@11.12.0";
 
+function previewEntry() {
+  const repository = process.env.PROJECT_PREVIEW_REPOSITORY;
+  const sourceRef = process.env.PROJECT_PREVIEW_SOURCE_REF;
+  if (!repository && !sourceRef) return null;
+  if (!/^[\w.-]+\/[\w.-]+$/.test(repository ?? "")) throw new Error("Invalid preview repository");
+  if (!/^[0-9a-f]{40}$/.test(sourceRef ?? "")) throw new Error("Preview ref must be an exact SHA");
+  return { repository, sourceRef, portfolio: { status: "preview" } };
+}
+
 function hash(value) {
   return createHash("sha256").update(value).digest("hex");
 }
@@ -69,7 +78,13 @@ const config = {
   flowchart: { curve: "basis", htmlLabels: false, nodeSpacing: 38, rankSpacing: 52 },
 };
 
-for (const entry of projectRegistry.filter((item) => item.portfolio.status === "approved")) {
+const approvedEntries = projectRegistry.filter((item) => item.portfolio.status === "approved");
+const candidate = previewEntry();
+const entries = candidate
+  ? [...approvedEntries.filter((entry) => entry.repository !== candidate.repository), candidate]
+  : approvedEntries;
+
+for (const entry of entries) {
   const manifestResponse = await fetch(`https://raw.githubusercontent.com/${entry.repository}/${entry.sourceRef}/portfolio/project.json`);
   const sourceResponse = await fetch(`https://raw.githubusercontent.com/${entry.repository}/${entry.sourceRef}/architecture/system.mmd`);
   if (!manifestResponse.ok || !sourceResponse.ok) throw new Error(`Unable to fetch ${entry.repository}@${entry.sourceRef}`);

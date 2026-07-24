@@ -120,7 +120,9 @@ async function writeProjections(manifests) {
 projectRegistry.forEach(validatePublication);
 const approvedEntries = projectRegistry.filter((entry) => entry.portfolio.status === "approved");
 const previewEntry = readPreviewEntry();
-const entries = previewEntry ? [...approvedEntries, previewEntry] : approvedEntries;
+const entries = previewEntry
+  ? [...approvedEntries.filter((entry) => entry.repository !== previewEntry.repository), previewEntry]
+  : approvedEntries;
 const manifests = await Promise.all(entries.map(fetchManifest));
 const slugs = new Set();
 for (let index = 0; index < manifests.length; index += 1) {
