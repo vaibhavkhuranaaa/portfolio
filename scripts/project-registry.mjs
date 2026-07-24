@@ -17,7 +17,7 @@ export const projectRegistry = [
   },
   {
     "repository": "vaibhavkhuranaaa/legal-document-intelligence-rag",
-    "sourceRef": "639fd8a54f45f24059ccd3acc1ba56d1767962c9",
+    "sourceRef": "d18ef4a427dc6db66bd3d12c43cc941d5b1a0ba7",
     "portfolio": {
       "status": "approved",
       "approvedAt": "2026-07-24",
