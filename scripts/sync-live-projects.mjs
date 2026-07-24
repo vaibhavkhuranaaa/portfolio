@@ -33,7 +33,10 @@ async function verifiedCandidate(repository, defaultBranch) {
   const commit = await github(`/repos/${repository}/commits/${encodeURIComponent(defaultBranch)}`);
   const sourceRef = commit.sha;
   const release = await raw(repository, sourceRef, "portfolio/release.json");
-  if (release?.status !== "enabled" || release.publicProject !== true) return null;
+  if (!release || release.publicProject == null) return { repository, disposition: "retain" };
+  if (release.status !== "enabled" || release.publicProject !== true) {
+    return { repository, disposition: "remove" };
+  }
   if (!release.verification?.url || !release.verification?.sourceShaField) {
     throw new Error(`${repository}: enabled public release requires verification URL and source SHA field`);
   }
@@ -48,21 +51,21 @@ async function verifiedCandidate(repository, defaultBranch) {
   }
   if (manifest.deployment.expiresAt && Date.parse(manifest.deployment.expiresAt) <= Date.now()) {
     console.log(`${repository}: skipped because the public demo expired`);
-    return null;
+    return { repository, disposition: "remove" };
   }
   const response = await fetch(release.verification.url, {
     headers: { Accept: "application/json", "User-Agent": "portfolio-live-project-sync" },
   });
   if (!response.ok) {
     console.log(`${repository}: skipped because live verification returned ${response.status}`);
-    return null;
+    return { repository, disposition: "retain" };
   }
   const deployed = await response.json();
   if (valueAt(deployed, release.verification.sourceShaField) !== sourceRef) {
     console.log(`${repository}: skipped until the deployed source SHA matches ${sourceRef}`);
-    return null;
+    return { repository, disposition: "retain" };
   }
-  return { repository, sourceRef, manifestPath: "portfolio/project.json" };
+  return { repository, sourceRef, manifestPath: "portfolio/project.json", disposition: "verified" };
 }
 
 const repositories = [];
@@ -73,30 +76,45 @@ for (let page = 1; ; page += 1) {
 }
 
 const retained = new Map(projectRegistry.map((entry) => [entry.repository, entry]));
-const candidates = [];
+const decisions = [];
 for (const repo of repositories) {
-  const candidate = await verifiedCandidate(repo.full_name, repo.default_branch);
-  if (candidate) candidates.push(candidate);
+  decisions.push(await verifiedCandidate(repo.full_name, repo.default_branch));
 }
 
 const now = new Date().toISOString().slice(0, 10);
 let nextSortOrder = Math.max(0, ...projectRegistry.map((entry) => entry.portfolio.sortOrder ?? 0)) + 10;
-const entries = candidates.map((candidate) => {
+const removals = new Set(decisions.filter((item) => item?.disposition === "remove").map((item) => item.repository));
+const verified = decisions.filter((item) => item?.disposition === "verified");
+const replacements = new Map(verified.map((item) => [item.repository, item]));
+const entries = projectRegistry.filter((entry) => !removals.has(entry.repository)).map((entry) => {
+  const candidate = replacements.get(entry.repository);
+  if (!candidate) return entry;
+  replacements.delete(entry.repository);
+  return {
+    ...entry,
+    ...candidate,
+    disposition: undefined,
+    portfolio: { ...entry.portfolio, status: "approved" },
+  };
+});
+for (const candidate of replacements.values()) {
   const current = retained.get(candidate.repository);
   if (current) {
-    return {
+    entries.push({
       ...current,
       ...candidate,
+      disposition: undefined,
       portfolio: { ...current.portfolio, status: "approved" },
-    };
+    });
+    continue;
   }
-  const entry = {
+  entries.push({
     ...candidate,
+    disposition: undefined,
     portfolio: { status: "approved", approvedAt: now, featured: false, sortOrder: nextSortOrder },
-  };
+  });
   nextSortOrder += 10;
-  return entry;
-});
+}
 entries.sort((left, right) => left.portfolio.sortOrder - right.portfolio.sortOrder
   || left.repository.localeCompare(right.repository));
 
