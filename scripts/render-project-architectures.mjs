@@ -94,10 +94,16 @@ for (const entry of entries) {
   const work = await mkdtemp(join(tmpdir(), "portfolio-site-architecture-"));
   const input = join(work, "system.mmd");
   const configPath = join(work, "mermaid-config.json");
+  const puppeteerConfigPath = join(work, "puppeteer-config.json");
   const outputRoot = join("public", "assets", "projects", manifest.slug);
   await mkdir(outputRoot, { recursive: true });
   await writeFile(input, source);
   await writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`);
+  if (process.env.CI) {
+    await writeFile(puppeteerConfigPath, `${JSON.stringify({
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    }, null, 2)}\n`);
+  }
   const outputs = [
     [join(outputRoot, "system.svg"), []],
     [join(outputRoot, "system.png"), ["--width", "1600", "--scale", "2"]],
@@ -107,6 +113,7 @@ for (const entry of entries) {
       ...command.prefix,
       "-i", input,
       "--configFile", configPath,
+      ...(process.env.CI ? ["--puppeteerConfigFile", puppeteerConfigPath] : []),
       "--backgroundColor", "white",
       "--quiet",
       "-o", output,
