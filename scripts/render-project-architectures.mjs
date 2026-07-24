@@ -91,11 +91,22 @@ for (const entry of entries) {
   const manifest = await manifestResponse.json();
   const source = await sourceResponse.text();
   const sourceSha256 = hash(source);
+  const outputRoot = join("public", "assets", "projects", manifest.slug);
+  const freshnessPath = join(outputRoot, "system.freshness.json");
+  try {
+    const freshness = JSON.parse(await readFile(freshnessPath, "utf8"));
+    await Promise.all([access(join(outputRoot, "system.svg")), access(join(outputRoot, "system.png"))]);
+    if (freshness.sourceRef === entry.sourceRef && freshness.sourceSha256 === sourceSha256) {
+      console.log(`${manifest.slug}: architecture already current at ${entry.sourceRef}`);
+      continue;
+    }
+  } catch {
+    // Missing, unreadable, or incomplete assets are regenerated below.
+  }
   const work = await mkdtemp(join(tmpdir(), "portfolio-site-architecture-"));
   const input = join(work, "system.mmd");
   const configPath = join(work, "mermaid-config.json");
   const puppeteerConfigPath = join(work, "puppeteer-config.json");
-  const outputRoot = join("public", "assets", "projects", manifest.slug);
   await mkdir(outputRoot, { recursive: true });
   await writeFile(input, source);
   await writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`);
@@ -133,7 +144,7 @@ for (const entry of entries) {
   );
   await writeFile(svgPath, `<!-- Generated from ${entry.repository}@${entry.sourceRef}:architecture/system.mmd; source-sha256=${sourceSha256}; renderer=${renderer} -->\n${svg}`);
   const pngPath = join(outputRoot, "system.png");
-  await writeFile(join(outputRoot, "system.freshness.json"), `${JSON.stringify({
+  await writeFile(freshnessPath, `${JSON.stringify({
     schemaVersion: 1,
     repository: entry.repository,
     sourceRef: entry.sourceRef,

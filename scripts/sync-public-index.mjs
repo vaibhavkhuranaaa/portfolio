@@ -20,7 +20,7 @@ const rows = catalog.projects.map((project) => {
 const block = [
   start,
   "",
-  `Generated from the verified live catalog at \`${catalog.generatedAt}\`. Project rows are not edited by hand.`,
+  "Generated from the verified live catalog. Project rows are not edited by hand.",
   "",
   "| Project | Focus | Deployment | Evidence | Source |",
   "| --- | --- | --- | --- | --- |",
