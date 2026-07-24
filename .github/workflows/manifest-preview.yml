@@ -27,9 +27,9 @@ jobs:
           PROJECT_PREVIEW_SOURCE_REF: ${{ github.event.client_payload.ref }}
           PROJECT_PREVIEW_MANIFEST_PATH: ${{ github.event.client_payload.manifest_path }}
         run: |
-          node -e 'if (!/^[\\w.-]+\\/[\\w.-]+$/.test(process.env.PROJECT_PREVIEW_REPOSITORY ?? "")) throw new Error("Invalid repository")'
+          node -e 'const parts=(process.env.PROJECT_PREVIEW_REPOSITORY ?? "").split("/"); if (parts.length !== 2 || parts.some((part) => !/^[\w.-]+$/.test(part))) throw new Error("Invalid repository")'
           node -e 'if (!/^[0-9a-f]{40}$/.test(process.env.PROJECT_PREVIEW_SOURCE_REF ?? "")) throw new Error("Preview ref must be an exact SHA")'
-          node -e 'const value=process.env.PROJECT_PREVIEW_MANIFEST_PATH ?? ""; if (!/^portfolio\\/[A-Za-z0-9_./-]+\\.json$/.test(value) || value.includes("..")) throw new Error("Invalid manifest path")'
+          node -e 'const value=process.env.PROJECT_PREVIEW_MANIFEST_PATH ?? ""; if (!value.startsWith("portfolio/") || !value.endsWith(".json") || value.includes("..") || !/^[A-Za-z0-9_./-]+$/.test(value)) throw new Error("Invalid manifest path")'
       - run: npm ci
       - run: npm test
       - run: npm run lint
