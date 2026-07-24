@@ -11,7 +11,7 @@ export const projectRegistry = [
   },
   {
     repository: "vaibhavkhuranaaa/legal-discovery-intelligence-graph",
-    sourceRef: "fb1d0a731879b743e03eeca06e4b8120d573b66b",
+    sourceRef: "dbf05cd7413d684b74366ce9303afc88aeafbdda",
     portfolio: { status: "approved", approvedAt: "2026-07-24", featured: true, sortOrder: 10 },
   },
   {
