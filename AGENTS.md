@@ -3,11 +3,11 @@
 
 ## Authority
 
-- Public membership and approval: `scripts/project-registry.mjs`, pinned to a 40-character source SHA.
+- Public membership: `scripts/project-registry.mjs`, generated from enabled public release contracts whose anonymous live endpoint reports the repository's current 40-character main SHA.
 - Project facts and evidence: that pinned repository's `portfolio/project.json`.
 - Contract structure and lifecycle profiles: `schemas/project-manifest-v*.json` plus `scripts/project-manifest-validation.mjs`.
 - Generated snapshots and `public/data/*.json` are build artifacts, never editable truth.
-- Deployment success does not grant publication approval or `live-verified` status.
+- Deployment success grants publication only after the independent live-SHA verification contract passes.
 
 ## Working rules
 
@@ -15,7 +15,7 @@
 - Preserve unrelated and pre-existing dirty changes.
 - Use purpose branches (`feat/`, `fix/`, `docs/`, `chore/`) and conventional commit subjects.
 - Use the configured human Git identity. Never add an AI/model author or co-author.
-- Keep preview, publication approval, production deployment, and rollback as distinct actions.
+- Keep build verification, production deployment, live-SHA verification, publication, and rollback as distinct recorded stages.
 - Never expose tokens or private manifest content in logs or public projections.
 - Run `npm test`, `npm run lint`, and a fixture-backed `npm run build` for contract or rendering changes.
 - Delegate only bounded independent work when the benefit exceeds coordination overhead.
