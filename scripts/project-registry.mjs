@@ -17,13 +17,14 @@ export const projectRegistry = [
   },
   {
     "repository": "vaibhavkhuranaaa/legal-document-intelligence-rag",
-    "sourceRef": "37d75307e69ede82cdd520af483eb4a317292309",
+    "sourceRef": "639fd8a54f45f24059ccd3acc1ba56d1767962c9",
     "portfolio": {
       "status": "approved",
       "approvedAt": "2026-07-24",
       "featured": false,
       "sortOrder": 20
-    }
+    },
+    "manifestPath": "portfolio/project.json"
   },
   {
     "repository": "vaibhavkhuranaaa/text-to-sql-guardrails",
