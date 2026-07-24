@@ -13,9 +13,21 @@ function readProjects(): Project[] {
   }
 }
 
-export const projects = readProjects().sort((a, b) => a.portfolio.sortOrder - b.portfolio.sortOrder);
+function isPubliclyReachable(project: Project): boolean {
+  if (project.portfolio.status !== "approved" || !project.liveUrl) return false;
+  if (project.deployment.status === "live") return true;
+  if (project.deployment.status !== "temporary-demo") return false;
+
+  const expiresAt = project.deployment.expiresAt ? Date.parse(project.deployment.expiresAt) : Number.NaN;
+  return Number.isFinite(expiresAt) && expiresAt > Date.now();
+}
+
+export const projects = readProjects()
+  .filter(isPubliclyReachable)
+  .sort((a, b) => a.portfolio.sortOrder - b.portfolio.sortOrder);
 export const getProject = (slug: string) => projects.find((project) => project.slug === slug);
 
+// Kept only to preserve existing direct routes and sitemap compatibility. They are not promoted in navigation or on the home page.
 export const notes = [
   { slug: "evidence-first-ai", title: "Evidence-first AI systems", summary: "Why citations, refusals, and evaluation belong in the product, not as a postscript.", status: "Note" },
 ];

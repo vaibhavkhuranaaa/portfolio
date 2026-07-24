@@ -1,15 +1,14 @@
 import { ArrowDownIcon, ArrowUpRightIcon, EnvelopeSimpleIcon } from "@phosphor-icons/react/dist/ssr";
+import Image from "next/image";
 import Link from "next/link";
-import HeroSignal from "@/components/HeroSignal";
-import ProjectCard from "@/components/ProjectCard";
-import { ApproachList, SkillClusters } from "@/components/ProfileModules";
+import ProjectRail from "@/components/ProjectRail";
+import WorkflowDiagram from "@/components/WorkflowDiagram";
+import { SkillClusters } from "@/components/ProfileModules";
 import { SiteFooter, SiteNav } from "@/components/SiteChrome";
-import { experiments, notes, projects } from "@/content/projects";
+import { projects } from "@/content/projects";
 import { siteConfig } from "@/content/site";
 
 export default function Home() {
-  const featured = projects.filter((project) => project.portfolio.featured).slice(0, 3);
-
   return (
     <main>
       <SiteNav />
@@ -23,7 +22,7 @@ export default function Home() {
             {siteConfig.contactEmail && <a className="button button-quiet" href={`mailto:${siteConfig.contactEmail}`}>Contact <ArrowUpRightIcon aria-hidden size={17} weight="bold" /></a>}
           </div>
         </div>
-        <HeroSignal />
+        <figure className="hero-portrait"><Image src="/assets/profile/vaibhav-khurana.png" alt="Vaibhav Khurana" width={1288} height={1221} priority sizes="(max-width: 900px) 100vw, 50vw" /><figcaption>AI systems architecture · data products · cloud delivery</figcaption></figure>
       </section>
 
       <section className="shell publication-strip" aria-label="Portfolio publication standard">
@@ -31,27 +30,18 @@ export default function Home() {
         <span>Every page is pinned to a reviewed source SHA and links claims to repository evidence.</span>
       </section>
 
-      <section className="shell section selected-work">
-        <div className="section-heading"><p className="eyebrow">SELECTED PROJECTS</p><h2>Systems with an evidence trail.</h2></div>
-        <div className="project-grid">{featured.map((project) => <ProjectCard key={project.slug} project={project} featured />)}</div>
-        <Link className="text-link" href="/work">Browse all work <ArrowUpRightIcon aria-hidden size={17} weight="bold" /></Link>
-      </section>
+      <ProjectRail projects={projects} />
 
       <section className="profile-preview">
         <div className="shell profile-preview-grid">
-          <div className="profile-preview-intro"><p className="eyebrow">PROFESSIONAL SNAPSHOT</p><h2>Built for data, AI, and analytical product work.</h2><p>Focused technical depth across data engineering, applied AI, cloud delivery, and analytical interfaces.</p><Link className="text-link" href="/about">Professional profile <ArrowUpRightIcon aria-hidden size={17} weight="bold" /></Link></div>
-          <div><SkillClusters compact /></div>
+          <div className="profile-preview-intro"><p className="eyebrow">PROFESSIONAL SNAPSHOT</p><h2>Data foundations. AI systems. Architecture that ships.</h2><p>Azure- and AWS-certified, with a data analyst’s rigor and a data scientist’s evaluation mindset—progressing into AI engineering and architecture.</p><Link className="text-link" href="/about">Professional profile <ArrowUpRightIcon aria-hidden size={17} weight="bold" /></Link></div>
+          <div><SkillClusters projects={projects} compact /></div>
         </div>
       </section>
 
       <section className="shell section operating-model">
-        <div className="section-heading"><p className="eyebrow">HOW I WORK</p><h2>Build the right system before the impressive one.</h2><p>The work has to survive real source material, real evaluation, and the constraints of a real delivery environment.</p></div>
-        <ApproachList />
-      </section>
-
-      <section className="shell section studio-section">
-        <div className="studio-heading"><p className="eyebrow">IN THE STUDIO</p><h2>Experiments and technical notes.</h2></div>
-        <div className="studio-list">{[...experiments, ...notes].map((item) => <Link className="studio-item" href={item.status === "Note" ? `/notes/${item.slug}` : `/experiments/${item.slug}`} key={item.slug}><small>{item.status}</small><h3>{item.title}</h3><p>{item.summary}</p><ArrowUpRightIcon aria-hidden size={20} weight="bold" /></Link>)}</div>
+        <div className="section-heading"><p className="eyebrow">HOW I WORK</p><h2>From decision to a system people can use.</h2><p>Each stage has a clear output, a verification point, and a documented handoff.</p></div>
+        <WorkflowDiagram />
       </section>
 
       {siteConfig.contactEmail && (

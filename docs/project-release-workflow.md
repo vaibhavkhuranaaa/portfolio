@@ -10,7 +10,15 @@ The portfolio is a static Next.js export. Public membership is controlled in thi
 4. Run `npm run architecture:sync`, then review the disclosure, evidence, URLs, expiry, source link, résumé candidates, canonical architecture, technology identities, and limitations.
 5. Change the registry entry to `approved`, add its approval date, sort order, and featured decision.
 6. Merge the reviewed registry change to `main`.
-7. An owner approves the protected `production` environment and runs **Release approved portfolio**.
+7. A verified project emits a `project-release-ready` event. The portfolio validates its exact SHA, writes the registry entry, rebuilds, and deploys without a per-project manual release.
+
+## One-time automation configuration
+
+1. Set `PORTFOLIO_REPOSITORY` and `PORTFOLIO_DISPATCH_TOKEN` in each project repository created by Project OS.
+2. Set `PROJECT_MANIFEST_READ_TOKEN` and `VERCEL_TOKEN` in this portfolio repository.
+3. Keep project deployment credentials in the project repository. The manifest dispatcher sends nothing until `deployment.status` is `live`, a `liveUrl` exists, and `deployment.verifiedAt` is recorded.
+
+An invalid manifest, failed validation, missing live deployment evidence, or failed portfolio build blocks publication and leaves the registry unchanged.
 8. The workflow builds once, deploys that prebuilt output, verifies the resulting URL, and stores a release-record artifact.
 
 Draft entries remain absent from the synchronized snapshot, routes, sitemap, and consumer projections. A preview is included only when the repository-dispatch workflow supplies its exact source tuple.

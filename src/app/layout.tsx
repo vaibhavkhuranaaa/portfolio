@@ -11,4 +11,4 @@ export const metadata: Metadata = {
   openGraph: { title: `${siteConfig.name} - ${siteConfig.title}`, description: siteConfig.description, type: "website", siteName: siteConfig.name },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) { return <html lang="en"><body>{children}</body></html>; }
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) { return <html lang="en" data-scroll-behavior="smooth"><body>{children}</body></html>; }

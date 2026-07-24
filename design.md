@@ -12,16 +12,16 @@ Design dials: `DESIGN_VARIANCE 6`, `MOTION_INTENSITY 4`, and `VISUAL_DENSITY 4`.
 
 ### Color
 
-- Canvas: `#0A0D11`
-- Surface: `#11161D`
-- Elevated surface: `#18202A`
-- Primary text: `#F1F5F9`
-- Secondary text: `#B8C3CF`
-- Dividers: `rgba(237, 242, 248, 0.16)`
-- Interactive accent: `#E9EEF5`
-- Interactive ink: `#10151C`
+- Canvas: `#F5EFE6`
+- Surface: `#FFFAF4`
+- Elevated surface: `#EADBCC`
+- Primary text: `#20231F`
+- Secondary text: `#5D6159`
+- Dividers: `rgba(42, 39, 34, 0.16)`
+- Interactive accent: `#BE5234`
+- Interactive ink: `#FFFAF4`
 
-The interface is graphite and silver-white. Electric blue (`#3B82F6`) is reserved for data illumination inside generated project artwork and the supporting 3D signal form; it is not a routine UI, link, or CTA color. Project artwork is cold, metallic, and high-contrast so it supports the interface rather than dictates it.
+The interface is warm editorial: paper, ink, clay, and a restrained vermilion action color. Project artwork may remain colder and more technical, creating an intentional contrast between the record of work and the systems it documents. Color must clarify hierarchy or action; it is never a substitute for evidence.
 
 ### Typography
 
@@ -35,7 +35,15 @@ The interface is graphite and silver-white. Electric blue (`#3B82F6`) is reserve
 - Keep one 14px radius system. Buttons and skill bubbles are fully rounded by purpose.
 - Use borders and spacing before elevation. Cards signal actual content grouping, not decoration.
 - Motion is limited to useful hover feedback and brief skill-entry reveals. All motion respects `prefers-reduced-motion`.
-- WebGL remains a supporting layer with a static fallback. Its blue illumination is visual media, not an interface accent.
+- WebGL remains a supporting layer with a static fallback. Its illumination is visual media, not an interface accent.
+
+### Home-page and project exploration
+
+- The hero uses the owner-provided professional portrait, not an abstract dark animation. Its image treatment is editorial, restrained, and subordinate to the professional message.
+- Home project discovery is a keyboard-accessible horizontal rail of live, approved projects. It replaces selected-project cards; the Projects route remains the complete library.
+- The professional snapshot leads with Azure and AWS architecture, data foundations, applied AI, and delivery. Live-project stack data supplements this view automatically; it does not invent proficiency claims.
+- The delivery method is a sequential flow diagram. Each step names an actual output rather than using decorative process art.
+- Experiments and technical notes are not promoted on the home page.
 
 ## Professional profile model
 
@@ -57,11 +65,14 @@ The interface is graphite and silver-white. Electric blue (`#3B82F6`) is reserve
 - Every featured project requires an original cover visual in `assets/project-covers/`. Architecture frames belong in `assets/project-architecture/` and have matching public copies.
 - Each project page opens with **The question** and **The answer**, then uses a four-stage visual evidence path: desktop uses a sticky visual paired with the stage copy; mobile presents a conventional image-led vertical sequence.
 - A repository may add the optional v1 `presentation` block to `portfolio/project.json` (question, answer, a cover image, and two or more image-led architecture stages). At approval, the sync script fetches those exact-SHA assets and serves local copies under `public/assets/projects/<slug>/`.
-- Metrics show only verified values with a plain-language label and evaluation context. Delivery, evaluation, tradeoffs, and stack appear as readable visual modules rather than hidden accordions.
+- Metrics show only verified values with a plain-language label and evaluation context. Evaluation tables include the metric, meaning, score, scope, baseline, interpretation, and evidence link. Technical terms and special values are explained where they affect reader interpretation.
+- Project cards use a compact, textual system-flow preview instead of unrelated cover imagery. Architecture views support keyboard, scroll, drag-pan, and zoom inspection; public viewers never see a source SHA, generator label, or internal release stamp.
+- Provider services are grouped under their platform in technology stacks (for example, Azure services under Microsoft Azure). Use a registered official technology mark when one is available; otherwise use the visible text fallback rather than fabricating a logo.
+- The visible project-page walkthrough ends with decision-relevant limits and delivery context. Internal source records and a standalone evidence index are not visitor-facing modules.
 - Copy follows a direct order: outcome, question, answer, architecture, evidence, delivery, and disclosure.
 - Never overstate metrics, deployment state, certification, work history, or education.
 
 ## Decision authority
 
-- TasteSkill owns layout composition, responsive behavior, and interaction patterns.
+- Impeccable owns design review, layout composition, responsive behavior, and interaction patterns; its repository hook remains opt-in.
 - The approval-based project workflow and evidence-first content model remain non-negotiable product requirements.

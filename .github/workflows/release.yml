@@ -3,9 +3,18 @@ name: Release approved portfolio
 on:
   workflow_dispatch:
     inputs:
+      source_sha:
+        description: Approved 40-character portfolio source revision
+        required: true
+        type: string
+      approval_timestamp:
+        description: Owner approval time in ISO-8601 UTC
+        required: true
+        type: string
       release_note:
         description: Brief note describing the approved portfolio update
-        required: true
+        required: false
+        default: Manual maintenance release
         type: string
 
 permissions:
@@ -20,12 +29,17 @@ env:
 
 jobs:
   release:
-    environment: production
     runs-on: ubuntu-latest
     steps:
-      - name: Enforce main branch
-        run: test "${GITHUB_REF}" = "refs/heads/main"
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_sha }}
+          fetch-depth: 0
+      - name: Verify approved main revision
+        run: |
+          test "$(git rev-parse HEAD)" = "${{ inputs.source_sha }}"
+          git fetch origin main
+          test "$(git rev-parse origin/main)" = "${{ inputs.source_sha }}"
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
       - run: npm ci
@@ -51,11 +65,13 @@ jobs:
       - name: Verify deployed pages, sources, demos, metadata, disclosure, sitemap, and expiry
         env:
           RELEASE_NOTE: ${{ inputs.release_note }}
+          RELEASE_APPROVED_AT: ${{ inputs.approval_timestamp }}
+          RELEASE_SOURCE_SHA: ${{ inputs.source_sha }}
           RELEASE_RECORD_PATH: artifacts/portfolio-release-record.json
         run: node scripts/verify-portfolio-release.mjs "${{ steps.deploy.outputs.deployment_url }}"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: portfolio-release-record-${{ github.sha }}
+          name: portfolio-release-record-${{ inputs.source_sha }}
           path: artifacts/portfolio-release-record.json
           if-no-files-found: error
