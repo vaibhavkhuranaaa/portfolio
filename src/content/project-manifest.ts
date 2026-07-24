@@ -29,9 +29,21 @@ export type ProjectPresentationStage = {
 export type ProjectPresentationContent = {
   question: string;
   answer: string;
+  decisionSupported?: string;
+  architectureAlt?: string;
+  architectureImage?: string;
+  evaluationMode?: string;
+  publicationStatus?: string;
+  licenseNote?: string;
   coverImage?: string;
   coverAlt?: string;
-  architecture: ProjectPresentationStage[];
+  architecture?: ProjectPresentationStage[];
+  technologyRoles?: Record<string, string>;
+  quickStart?: Array<{ label: string; command: string }>;
+  securityControls?: Array<{ control: string; implementation: string; evidenceRefs: string[]; limitation: string }>;
+  costBoundaries?: Array<{ component: string; boundary: string; implication: string }>;
+  repositoryStructure?: Array<{ path: string; purpose: string }>;
+  verification?: Array<{ check: string; command: string; evidenceRef?: string }>;
 };
 
 export type ProjectStory = {
@@ -42,7 +54,7 @@ export type ProjectStory = {
   intendedUser: string;
   example: { title: string; steps: string[] };
   technologyDecisions: Array<{ technology: string; rationale: string; alternative: string; tradeoff: string }>;
-  evidence: Array<{ value: string; label: string; context: string; method: string }>;
+  evidence: Array<{ value: string; label: string; context: string; method: string; evidenceRefs?: string[] }>;
   limitations: string[];
 };
 
@@ -80,6 +92,13 @@ export type Project = {
     source: string;
     method: string;
     result?: string | number | boolean | null;
+    scope?: string;
+    observedAt?: string | null;
+    environment?: string;
+    classification?: string;
+    execution?: "deterministic" | "local" | "integration" | "live";
+    caveat?: string;
+    counts?: { total?: number; passed?: number; failed?: number; refused?: number };
   }>;
   resume?: {
     bulletCandidates: Array<{ role: string; bullet: string; evidenceRefs: string[] }>;

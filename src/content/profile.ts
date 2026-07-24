@@ -5,11 +5,6 @@ export type ProfileSkill = {
   detail: string;
 };
 
-export const credentials = [
-  { issuer: "Amazon Web Services", label: "AWS Certified", note: "Exact certification and verification link to be added." },
-  { issuer: "Microsoft", label: "Microsoft Certified: Azure", note: "Exact certification and verification link to be added." },
-] as const;
-
 export const profileSkills: ProfileSkill[] = [
   { name: "Python", group: "Data engineering", icon: "python", detail: "Data processing and application development" },
   { name: "PostgreSQL + pgvector", group: "Data engineering", icon: "postgresql", detail: "Structured data and vector retrieval" },

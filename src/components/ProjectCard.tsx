@@ -16,7 +16,7 @@ export default function ProjectCard({ project, featured = false }: { project: Pr
         <div className="tag-row">{project.categories.map((item) => <span key={item}>{item}</span>)}</div>
         <h2><Link href={`/projects/${project.slug}`}>{project.title}</Link></h2>
         <p>{project.summary}</p>
-        <div className="metric-row">{presentation.metrics.slice(0, 2).map((metric) => <strong key={metric.label}><b>{metric.value}</b>{metric.label}</strong>)}</div>
+        {presentation.metrics[0] && <p className="project-evidence-line"><strong>{presentation.metrics[0].value}</strong> {presentation.metrics[0].label} — {presentation.metrics[0].context}</p>}
       </div>
       <div className="project-links">
         <Link href={`/projects/${project.slug}`}>View project <ArrowUpRightIcon aria-hidden size={16} weight="bold" /></Link>

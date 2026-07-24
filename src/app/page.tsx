@@ -2,7 +2,7 @@ import { ArrowDownIcon, ArrowUpRightIcon, EnvelopeSimpleIcon } from "@phosphor-i
 import Link from "next/link";
 import HeroSignal from "@/components/HeroSignal";
 import ProjectCard from "@/components/ProjectCard";
-import { ApproachList, CredentialStrip, SkillClusters } from "@/components/ProfileModules";
+import { ApproachList, SkillClusters } from "@/components/ProfileModules";
 import { SiteFooter, SiteNav } from "@/components/SiteChrome";
 import { experiments, notes, projects } from "@/content/projects";
 import { siteConfig } from "@/content/site";
@@ -26,10 +26,9 @@ export default function Home() {
         <HeroSignal />
       </section>
 
-      <section className="shell proof-strip" aria-label="Portfolio evidence">
-        <div><strong>{projects.length}</strong><span>published projects with source-linked evidence</span></div>
-        <div><strong>139</strong><span>deterministic tests in a featured system</span></div>
-        <div><strong>0.929</strong><span>graph retrieval R@5 in evaluation</span></div>
+      <section className="shell publication-strip" aria-label="Portfolio publication standard">
+        <strong>{projects.length} approved projects</strong>
+        <span>Every page is pinned to a reviewed source SHA and links claims to repository evidence.</span>
       </section>
 
       <section className="shell section selected-work">
@@ -41,7 +40,7 @@ export default function Home() {
       <section className="profile-preview">
         <div className="shell profile-preview-grid">
           <div className="profile-preview-intro"><p className="eyebrow">PROFESSIONAL SNAPSHOT</p><h2>Built for data, AI, and analytical product work.</h2><p>Focused technical depth across data engineering, applied AI, cloud delivery, and analytical interfaces.</p><Link className="text-link" href="/about">Professional profile <ArrowUpRightIcon aria-hidden size={17} weight="bold" /></Link></div>
-          <div><CredentialStrip /><SkillClusters compact /></div>
+          <div><SkillClusters compact /></div>
         </div>
       </section>
 

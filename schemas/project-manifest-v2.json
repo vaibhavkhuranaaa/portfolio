@@ -84,7 +84,23 @@
           "claim": { "$ref": "#/$defs/text" },
           "source": { "$ref": "#/$defs/text" },
           "method": { "$ref": "#/$defs/text" },
-          "result": { "type": ["string", "number", "boolean", "null"] }
+          "result": { "type": ["string", "number", "boolean", "null"] },
+          "scope": { "$ref": "#/$defs/text" },
+          "observedAt": { "type": ["string", "null"], "format": "date-time" },
+          "environment": { "$ref": "#/$defs/text" },
+          "classification": { "$ref": "#/$defs/text" },
+          "execution": { "enum": ["deterministic", "local", "integration", "live"] },
+          "caveat": { "$ref": "#/$defs/text" },
+          "counts": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "total": { "type": "integer", "minimum": 0 },
+              "passed": { "type": "integer", "minimum": 0 },
+              "failed": { "type": "integer", "minimum": 0 },
+              "refused": { "type": "integer", "minimum": 0 }
+            }
+          }
         }
       }
     },
@@ -184,17 +200,101 @@
     },
     "asset": {
       "type": "string",
-      "pattern": "^(?!.*(?:^|/)\\.\\.?/)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.(?:png|jpe?g|webp)$"
+      "pattern": "^(?!.*(?:^|/)\\.\\.?/)(?:[A-Za-z0-9_-]+/)*[A-Za-z0-9_-]+\\.(?:svg|png|jpe?g|webp)$"
     },
     "presentation": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["question", "answer", "architecture"],
+      "required": ["question", "answer"],
       "properties": {
         "question": { "$ref": "#/$defs/text" },
         "answer": { "$ref": "#/$defs/text" },
+        "decisionSupported": { "$ref": "#/$defs/text" },
+        "architectureAlt": { "$ref": "#/$defs/text" },
+        "architectureImage": { "$ref": "#/$defs/asset" },
+        "evaluationMode": { "$ref": "#/$defs/text" },
+        "publicationStatus": { "$ref": "#/$defs/text" },
+        "licenseNote": { "$ref": "#/$defs/text" },
         "coverImage": { "$ref": "#/$defs/asset" },
         "coverAlt": { "$ref": "#/$defs/text" },
+        "technologyRoles": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/text" }
+        },
+        "quickStart": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["label", "command"],
+            "properties": {
+              "label": { "$ref": "#/$defs/text" },
+              "command": { "$ref": "#/$defs/text" }
+            }
+          }
+        },
+        "securityControls": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["control", "implementation", "evidenceRefs", "limitation"],
+            "properties": {
+              "control": { "$ref": "#/$defs/text" },
+              "implementation": { "$ref": "#/$defs/text" },
+              "evidenceRefs": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "$ref": "#/$defs/evidenceId" }
+              },
+              "limitation": { "$ref": "#/$defs/text" }
+            }
+          }
+        },
+        "costBoundaries": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["component", "boundary", "implication"],
+            "properties": {
+              "component": { "$ref": "#/$defs/text" },
+              "boundary": { "$ref": "#/$defs/text" },
+              "implication": { "$ref": "#/$defs/text" }
+            }
+          }
+        },
+        "repositoryStructure": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "purpose"],
+            "properties": {
+              "path": { "$ref": "#/$defs/text" },
+              "purpose": { "$ref": "#/$defs/text" }
+            }
+          }
+        },
+        "verification": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["check", "command"],
+            "properties": {
+              "check": { "$ref": "#/$defs/text" },
+              "command": { "$ref": "#/$defs/text" },
+              "evidenceRef": { "$ref": "#/$defs/evidenceId" }
+            }
+          }
+        },
         "architecture": {
           "type": "array",
           "minItems": 2,

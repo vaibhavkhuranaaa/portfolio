@@ -8,6 +8,7 @@
     "dev": "next dev",
     "build": "next build",
     "sync-projects": "node scripts/sync-project-manifests.mjs",
+    "architecture:sync": "node scripts/render-project-architectures.mjs",
     "start": "next start",
     "lint": "eslint",
     "test": "node --test tests/**/*.test.mjs"

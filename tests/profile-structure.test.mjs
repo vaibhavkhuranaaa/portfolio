@@ -11,9 +11,9 @@ test("uses a unified professional profile instead of a resume route", () => {
   assert.doesNotMatch(nav, /Resume/);
 });
 
-test("keeps certification and focused skills in portfolio-owned profile content", () => {
-  assert.match(profile, /AWS Certified/);
-  assert.match(profile, /Microsoft Certified: Azure/);
+test("keeps focused skills but excludes unverified certification placeholders", () => {
+  assert.doesNotMatch(profile, /verification link to be added/i);
+  assert.doesNotMatch(profile, /AWS Certified/);
   assert.match(profile, /Data engineering/);
   assert.match(profile, /Applied AI/);
 });
