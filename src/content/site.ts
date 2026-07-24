@@ -9,10 +9,7 @@ function optionalUrl(value: string | undefined) {
   }
 }
 
-const deploymentUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
-  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-  : undefined;
-const siteUrl = optionalUrl(process.env.SITE_URL ?? deploymentUrl)
+const siteUrl = optionalUrl(process.env.SITE_URL)
   ?? "https://portfolio-reeper1.vercel.app";
 const contactEmail = process.env.CONTACT_EMAIL?.trim() || undefined;
 const requirePublicConfig = process.env.REQUIRE_PUBLIC_SITE_CONFIG === "true";
