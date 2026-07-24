@@ -9,7 +9,7 @@ export function SiteNav() {
       <Link href="/" className="mark">VK<span>/</span>AI</Link>
       <div className="nav-links"><Link href="/work">Projects</Link><Link href="/about">Profile</Link></div>
       <div className="nav-actions">
-        <a href={`mailto:${siteConfig.contactEmail}`}>Contact <ArrowUpRightIcon aria-hidden size={15} weight="bold" /></a>
+        {siteConfig.contactEmail && <a href={`mailto:${siteConfig.contactEmail}`}>Contact <ArrowUpRightIcon aria-hidden size={15} weight="bold" /></a>}
       </div>
       <MobileMenu />
     </nav>

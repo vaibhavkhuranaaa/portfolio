@@ -20,7 +20,7 @@ export default function Home() {
           <p className="intro">I build reliable data platforms, applied AI, and analytical products from source material through deployment.</p>
           <div className="hero-actions">
             <Link className="button button-primary" href="/work">Explore projects <ArrowDownIcon aria-hidden size={17} weight="bold" /></Link>
-            <a className="button button-quiet" href={`mailto:${siteConfig.contactEmail}`}>Contact <ArrowUpRightIcon aria-hidden size={17} weight="bold" /></a>
+            {siteConfig.contactEmail && <a className="button button-quiet" href={`mailto:${siteConfig.contactEmail}`}>Contact <ArrowUpRightIcon aria-hidden size={17} weight="bold" /></a>}
           </div>
         </div>
         <HeroSignal />
@@ -54,10 +54,12 @@ export default function Home() {
         <div className="studio-list">{[...experiments, ...notes].map((item) => <Link className="studio-item" href={item.status === "Note" ? `/notes/${item.slug}` : `/experiments/${item.slug}`} key={item.slug}><small>{item.status}</small><h3>{item.title}</h3><p>{item.summary}</p><ArrowUpRightIcon aria-hidden size={20} weight="bold" /></Link>)}</div>
       </section>
 
-      <section className="shell contact-section">
-        <div><p className="eyebrow">NEXT CONVERSATION</p><h2>Building an AI or data product that has to hold up in the real world?</h2></div>
-        <a className="button button-primary" href={`mailto:${siteConfig.contactEmail}`}><EnvelopeSimpleIcon aria-hidden size={18} weight="bold" /> Contact</a>
-      </section>
+      {siteConfig.contactEmail && (
+        <section className="shell contact-section">
+          <div><p className="eyebrow">NEXT CONVERSATION</p><h2>Building an AI or data product that has to hold up in the real world?</h2></div>
+          <a className="button button-primary" href={`mailto:${siteConfig.contactEmail}`}><EnvelopeSimpleIcon aria-hidden size={18} weight="bold" /> Contact</a>
+        </section>
+      )}
       <SiteFooter />
     </main>
   );
