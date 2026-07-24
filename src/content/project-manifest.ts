@@ -33,6 +33,7 @@ export type ProjectPresentationContent = {
   architectureAlt?: string;
   architectureImage?: string;
   evaluationMode?: string;
+  terms?: Array<{ term: string; plainLanguage: string; projectUse: string }>;
   publicationStatus?: string;
   licenseNote?: string;
   coverImage?: string;
@@ -54,7 +55,7 @@ export type ProjectStory = {
   intendedUser: string;
   example: { title: string; steps: string[] };
   technologyDecisions: Array<{ technology: string; rationale: string; alternative: string; tradeoff: string }>;
-  evidence: Array<{ value: string; label: string; context: string; method: string; evidenceRefs?: string[] }>;
+  evidence: Array<{ value: string; label: string; context: string; method: string; meaning?: string; threshold?: string; interpretation?: string; evidenceRefs?: string[] }>;
   limitations: string[];
 };
 

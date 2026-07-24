@@ -149,6 +149,9 @@
               "label": { "$ref": "#/$defs/text" },
               "context": { "$ref": "#/$defs/text" },
               "method": { "$ref": "#/$defs/text" },
+              "meaning": { "$ref": "#/$defs/text" },
+              "threshold": { "$ref": "#/$defs/text" },
+              "interpretation": { "$ref": "#/$defs/text" },
               "evidenceRefs": {
                 "type": "array",
                 "minItems": 1,
@@ -213,6 +216,19 @@
         "architectureAlt": { "$ref": "#/$defs/text" },
         "architectureImage": { "$ref": "#/$defs/asset" },
         "evaluationMode": { "$ref": "#/$defs/text" },
+        "terms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["term", "plainLanguage", "projectUse"],
+            "properties": {
+              "term": { "$ref": "#/$defs/text" },
+              "plainLanguage": { "$ref": "#/$defs/text" },
+              "projectUse": { "$ref": "#/$defs/text" }
+            }
+          }
+        },
         "publicationStatus": { "$ref": "#/$defs/text" },
         "licenseNote": { "$ref": "#/$defs/text" },
         "coverImage": { "$ref": "#/$defs/asset" },

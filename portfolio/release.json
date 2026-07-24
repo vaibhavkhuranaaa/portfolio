@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "status": "enabled",
+  "provider": "Vercel",
+  "workflow": "release.yml",
+  "deploymentTarget": "portfolio",
+  "paidResource": false,
+  "costApprovalRequired": false
+}

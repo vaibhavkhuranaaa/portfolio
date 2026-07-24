@@ -3,6 +3,7 @@ import {
   siDuckdb,
   siFastapi,
   siFlask,
+  siGithubactions,
   siHuggingface,
   siLangchain,
   siNeo4j,
@@ -13,11 +14,14 @@ import {
   siPython,
   siStreamlit,
   siSupabase,
+  siTypescript,
+  siVercel,
   type SimpleIcon,
 } from "simple-icons";
 
 const icons: Record<string, SimpleIcon> = {
   Python: siPython,
+  TypeScript: siTypescript,
   Flask: siFlask,
   FastAPI: siFastapi,
   LangChain: siLangchain,
@@ -32,6 +36,8 @@ const icons: Record<string, SimpleIcon> = {
   Streamlit: siStreamlit,
   DuckDB: siDuckdb,
   Docker: siDocker,
+  "GitHub Actions": siGithubactions,
+  Vercel: siVercel,
   OpenTelemetry: siOpentelemetry,
 };
 
@@ -46,5 +52,10 @@ export function TechnologyMark({ name }: { name: string }) {
 }
 
 export function TechnologyList({ technologies }: { technologies: string[] }) {
-  return <div className="technology-list" aria-label="Technology stack">{technologies.map((name) => <TechnologyMark name={name} key={name} />)}</div>;
+  const azure = technologies.filter((name) => /^(Azure |Microsoft Entra)/.test(name));
+  const independent = technologies.filter((name) => !azure.includes(name));
+  return <div className="technology-list" aria-label="Technology stack">
+    {azure.length > 0 && <section className="technology-provider"><TechnologyMark name="Microsoft Azure" /><div className="technology-provider-services">{azure.map((name) => <TechnologyMark name={name} key={name} />)}</div></section>}
+    {independent.map((name) => <TechnologyMark name={name} key={name} />)}
+  </div>;
 }
