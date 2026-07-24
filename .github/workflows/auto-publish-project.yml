@@ -32,6 +32,7 @@ jobs:
       - run: npm test
       - run: npm run lint
       - name: Commit synchronized public truth
+        id: catalog
         run: |
           git config user.name "${{ github.repository_owner }}"
           git config user.email "${{ github.repository_owner }}@users.noreply.github.com"
@@ -42,3 +43,32 @@ jobs:
             git commit -m "chore: synchronize verified live projects"
             git push
           fi
+          echo "source_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: Wait for Vercel Git deployment
+        env:
+          SOURCE_SHA: ${{ steps.catalog.outputs.source_sha }}
+          LIVE_URL: https://portfolio-reeper1.vercel.app
+        run: |
+          for attempt in $(seq 1 40); do
+            payload="$(curl --fail --silent --show-error "$LIVE_URL/api/release" || true)"
+            if printf '%s' "$payload" | jq -e --arg sha "$SOURCE_SHA" '.status == "ok" and .source_sha == $sha' >/dev/null; then
+              exit 0
+            fi
+            test "$attempt" -lt 40
+            sleep 15
+          done
+      - name: Verify synchronized public portfolio
+        env:
+          LIVE_URL: https://portfolio-reeper1.vercel.app
+          RELEASE_NOTE: Automatic verified-catalog release
+          RELEASE_SOURCE_SHA: ${{ steps.catalog.outputs.source_sha }}
+          RELEASE_RECORD_PATH: artifacts/portfolio-release-record.json
+        run: |
+          export RELEASE_APPROVED_AT="$(date -u +%FT%TZ)"
+          node scripts/verify-portfolio-release.mjs "$LIVE_URL"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: synchronized-portfolio-release-${{ steps.catalog.outputs.source_sha }}
+          path: artifacts/portfolio-release-record.json
+          if-no-files-found: error
