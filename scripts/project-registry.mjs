@@ -7,7 +7,9 @@ export const projectRegistry = [
   {
     repository: "vaibhavkhuranaaa/legal-document-intelligence-rag",
     sourceRef: "feeefeba500881f6624edf984340f618b2b41bb8",
-    portfolio: { status: "approved", approvedAt: "2026-07-19", featured: true, sortOrder: 20 },
+    // Candidate retained, but excluded from approved output because its private
+    // GitHub source link is not usable by an unauthenticated portfolio visitor.
+    portfolio: { status: "draft" },
   },
   {
     repository: "vaibhavkhuranaaa/legal-discovery-intelligence-graph",
