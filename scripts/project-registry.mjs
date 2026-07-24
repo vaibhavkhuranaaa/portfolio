@@ -14,4 +14,11 @@ export const projectRegistry = [
     sourceRef: "c893da65f17121cf8616f1865f946efec2cf935d",
     portfolio: { status: "approved", approvedAt: "2026-07-19", featured: true, sortOrder: 10 },
   },
+  {
+    repository: "vaibhavkhuranaaa/text-to-sql-guardrails",
+    sourceRef: "b800774943bd32a72811420cb52a7befd11b5f2f",
+    // Publication is intentionally pending a public source revision and a
+    // replacement deployment that proves the committed release controls.
+    portfolio: { status: "draft" },
+  },
 ];
