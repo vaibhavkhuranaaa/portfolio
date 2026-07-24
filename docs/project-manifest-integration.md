@@ -9,6 +9,8 @@ Each project repository owns an editable `portfolio/project.json`. Version 1 rem
 
 The schema describes structure. `scripts/project-manifest-validation.mjs` owns lifecycle semantics; projects must not create parallel schemas for each profile.
 
+Presentation facts are also manifest-owned. The site renders a compact stakeholder layer first, then architecture, workflow, technology decisions, evaluation scope, disclosure, security controls, deployment and cost boundaries, limitations, roadmap, and an evidence index. It does not keep a separate hand-authored set of project claims.
+
 ## Exact-SHA preview
 
 Copy `.github/workflows/project-manifest-dispatch.yml.example` into a project repository as `.github/workflows/project-manifest-dispatch.yml`. The dispatch payload includes:
@@ -31,5 +33,14 @@ Production publication remains owned by the exact-SHA registry in `scripts/proje
 - `public/data/resume_bullets.json`
 
 The portfolio UI, résumé catalog, and generated GitHub index must consume the normalized approved catalog. Generated payloads are ignored by Git and must never be edited as source documents.
+
+The site also fetches `architecture/system.mmd` from each approved exact SHA. Run:
+
+```bash
+npm run architecture:sync
+npm run sync-projects
+```
+
+The first command renders committed SVG, PNG, and freshness metadata under `public/assets/projects/<slug>/`. The second rejects an asset when its source ref or source hash differs from the approved Mermaid file. The UI uses the PNG for safe image optimization while the SVG remains available as the vector artifact.
 
 See `docs/project-release-workflow.md` for protected production release and live-verification rules.

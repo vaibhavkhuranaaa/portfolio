@@ -47,3 +47,7 @@ next-env.d.ts
 # Build-time project manifest snapshot (sourced from project repositories)
 /src/content/generated/
 /public/data/
+
+# Vendor-specific local adapters; AGENTS.md is canonical.
+CLAUDE.md
+.claude/

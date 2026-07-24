@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "repository": "vaibhavkhuranaaa/legal-discovery-intelligence-graph",
+  "sourceRef": "c893da65f17121cf8616f1865f946efec2cf935d",
+  "sourcePath": "architecture/system.mmd",
+  "sourceSha256": "accad96daaa9133675d269b355b4948bbaad09eb3123b55ec47c3ea8f6b3dc3b",
+  "renderer": "@mermaid-js/mermaid-cli@11.12.0",
+  "svgSha256": "4ac63674f1090d94501159fc3402e079451958d390115a473304fcaaa7f257a7",
+  "pngSha256": "62142bf9edd0aca8287b2c266870a56be028ae856de4f880c5f640bd037be78c"
+}

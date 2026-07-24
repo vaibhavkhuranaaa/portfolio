@@ -274,3 +274,66 @@ footer a { color: var(--text); }
 }
 @keyframes skill-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+
+/* Evidence-first project presentation */
+.publication-strip { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1rem; border-block: 1px solid var(--line); color: var(--muted); font-size: .9rem; line-height: 1.5; }
+.publication-strip strong { color: var(--text); font-size: .9rem; }
+.case-head h1 { max-width: 18ch; font-size: clamp(2.8rem, 5vw, 5rem); }
+.case-head > p:not(.eyebrow) { max-width: 60rem; }
+.stakeholder-layer { padding-block: clamp(3rem, 7vw, 6rem); border-top: 1px solid var(--line); }
+.compact-heading { max-width: 48rem; margin-bottom: 2rem; }
+.compact-heading h2 { margin: .65rem 0 0; font-size: clamp(2rem, 3.2vw, 3.25rem); line-height: 1; }
+.compact-heading > p:not(.eyebrow) { color: var(--muted); line-height: 1.65; }
+.executive-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.executive-grid > div { padding: 1.25rem; border-bottom: 1px solid var(--line); }
+.executive-grid > div:nth-child(odd) { border-right: 1px solid var(--line); }
+.executive-grid > div:nth-last-child(-n + 2) { border-bottom: 0; }
+.executive-grid dt { margin-bottom: .55rem; color: var(--muted); font: 700 .72rem var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.executive-grid dd { margin: 0; line-height: 1.65; }
+.workflow-compact { margin-top: 2.5rem; }
+.workflow-compact h3, .technical-section h3 { margin: 0 0 1rem; font-size: 1.25rem; }
+.workflow-compact ol, .flow-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; padding: 0; margin: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--line); list-style: none; }
+.workflow-compact li, .flow-list li { display: grid; grid-template-columns: 2rem 1fr; gap: .75rem; min-height: 5.5rem; padding: 1rem; background: var(--surface); color: var(--muted); line-height: 1.55; }
+.workflow-compact li span, .flow-list li span { color: var(--text); font: 700 .75rem/1.6 var(--mono); }
+.technical-layer { margin-bottom: 5rem; border-block: 1px solid var(--line); }
+.technical-layer > summary { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: 1.25rem 0; cursor: pointer; list-style-position: inside; }
+.technical-layer > summary span { font-size: 1.05rem; font-weight: 700; }
+.technical-layer > summary small { color: var(--muted); }
+.technical-content { padding: 3rem 0 1rem; }
+.architecture-diagram { margin: 2rem 0 0; padding: clamp(1rem, 3vw, 2rem); overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+.architecture-diagram img { display: block; width: 100%; height: auto; }
+.architecture-diagram figcaption { margin-top: 1rem; color: #52606d; font-size: .82rem; line-height: 1.5; }
+.technical-section { padding-block: 2.75rem; border-top: 1px solid var(--line); }
+.table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); }
+.table-scroll:focus-visible { outline: 2px solid var(--text); outline-offset: 3px; }
+.table-scroll table { width: 100%; min-width: 52rem; border-collapse: collapse; font-size: .86rem; line-height: 1.5; }
+.table-scroll th, .table-scroll td { padding: .85rem 1rem; text-align: left; vertical-align: top; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.table-scroll th:last-child, .table-scroll td:last-child { border-right: 0; }
+.table-scroll tbody tr:last-child td { border-bottom: 0; }
+.table-scroll th { background: var(--surface-raised); color: var(--text); font: 700 .72rem var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+.table-scroll td { color: var(--muted); }
+.table-scroll a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+.boundary-note { margin: 1rem 0 0; color: var(--muted); font-size: .86rem; line-height: 1.55; }
+.technology-list { display: flex; flex-wrap: wrap; gap: .55rem; }
+.technology { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.35rem; padding: .45rem .7rem; border: 1px solid var(--line); border-radius: 999px; color: var(--text); font-size: .82rem; }
+.technology-mark { width: 1rem; height: 1rem; color: var(--muted); }
+.skill-bubble .technology { min-height: 0; padding: 0; border: 0; border-radius: 0; }
+.skill-bubble > p { margin: .35rem 0 0; color: var(--muted); font-size: .78rem; line-height: 1.35; }
+.split-tables { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem; }
+.split-tables ul, .split-tables ol { display: grid; gap: .7rem; padding-left: 1.25rem; color: var(--muted); line-height: 1.55; }
+.source-record { display: grid; grid-template-columns: .7fr 1.3fr; gap: 2rem; padding-block: 2rem 4rem; color: var(--muted); font-size: .85rem; line-height: 1.6; }
+.source-record p { margin: 0; }
+.source-record strong, .source-record code { display: block; color: var(--text); }
+.project-evidence-line { padding-top: .8rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem !important; line-height: 1.5 !important; }
+.project-evidence-line strong { color: var(--text); }
+
+@media (max-width: 720px) {
+  .architecture-diagram img { min-width: 56rem; }
+  .publication-strip { display: grid; }
+  .executive-grid, .split-tables { grid-template-columns: 1fr; }
+  .executive-grid > div, .executive-grid > div:nth-child(odd), .executive-grid > div:nth-last-child(-n + 2) { border-right: 0; border-bottom: 1px solid var(--line); }
+  .executive-grid > div:last-child { border-bottom: 0; }
+  .workflow-compact ol, .flow-list { grid-template-columns: 1fr; }
+  .technical-layer > summary { align-items: start; flex-direction: column; }
+  .source-record { grid-template-columns: 1fr; }
+}

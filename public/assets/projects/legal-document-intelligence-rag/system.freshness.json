@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "repository": "vaibhavkhuranaaa/legal-document-intelligence-rag",
+  "sourceRef": "feeefeba500881f6624edf984340f618b2b41bb8",
+  "sourcePath": "architecture/system.mmd",
+  "sourceSha256": "78ab9669430d76504aaa038c7258829f6319457f838ed7e4324d0153e3624fda",
+  "renderer": "@mermaid-js/mermaid-cli@11.12.0",
+  "svgSha256": "588df0ef21967807d05e5b09f1ed721e78ffbc1fa1c7cee8620ca613d596b078",
+  "pngSha256": "48903672215d85a169396fb2c6519c7a5c9ae736f76456d16652aca900ac387f"
+}

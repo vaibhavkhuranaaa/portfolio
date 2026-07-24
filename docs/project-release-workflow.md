@@ -7,7 +7,7 @@ The portfolio is a static Next.js export. Public membership is controlled in thi
 1. Commit a validated `portfolio/project.json` in the project repository.
 2. Request an exact-SHA preview from that project. Preview does not change the public catalog.
 3. Pin the reviewed 40-character SHA in `scripts/project-registry.mjs` as `draft`.
-4. Review the disclosure, evidence, URLs, expiry, source link, résumé candidates, visuals, and limitations.
+4. Run `npm run architecture:sync`, then review the disclosure, evidence, URLs, expiry, source link, résumé candidates, canonical architecture, technology identities, and limitations.
 5. Change the registry entry to `approved`, add its approval date, sort order, and featured decision.
 6. Merge the reviewed registry change to `main`.
 7. An owner approves the protected `production` environment and runs **Release approved portfolio**.
@@ -23,6 +23,7 @@ The workflow:
 - serializes production releases,
 - pins the Vercel CLI version,
 - runs tests and lint before deployment,
+- rejects stale exact-SHA architecture renders during synchronization,
 - performs one production build and deploys that prebuilt artifact,
 - captures the deployment URL,
 - verifies project pages, titles, source links, demo links, disclosures, sitemap membership, source SHAs, and expiry state,

@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, join } from "node:path";
 import { projectRegistry } from "./project-registry.mjs";
@@ -69,13 +70,40 @@ async function localizePresentationAssets(entry, manifest) {
   if (!manifest.presentation) return manifest;
   const presentation = { ...manifest.presentation };
   if (presentation.coverImage) presentation.coverImage = await fetchProjectAsset(entry, presentation.coverImage, manifest.slug);
-  presentation.architecture = await Promise.all(
+  if (presentation.architecture) presentation.architecture = await Promise.all(
     presentation.architecture.map(async (stage) => ({
       ...stage,
       image: await fetchProjectAsset(entry, stage.image, manifest.slug),
     })),
   );
   return { ...manifest, presentation };
+}
+
+async function attachGeneratedArchitecture(entry, manifest) {
+  if (process.env.PROJECT_MANIFEST_SOURCE_DIR) return manifest;
+  const response = await fetch(`https://raw.githubusercontent.com/${entry.repository}/${entry.sourceRef}/architecture/system.mmd`, {
+    headers: process.env.PROJECT_MANIFEST_READ_TOKEN
+      ? { Authorization: `Bearer ${process.env.PROJECT_MANIFEST_READ_TOKEN}` }
+      : undefined,
+  });
+  if (!response.ok) throw new Error(`Unable to fetch canonical architecture for ${entry.repository}@${entry.sourceRef}: ${response.status}`);
+  const source = await response.text();
+  const sourceSha256 = createHash("sha256").update(source).digest("hex");
+  const localDirectory = join(publicAssetRoot, manifest.slug);
+  const freshness = JSON.parse(await readFile(join(localDirectory, "system.freshness.json"), "utf8"));
+  if (freshness.sourceRef !== entry.sourceRef || freshness.sourceSha256 !== sourceSha256) {
+    throw new Error(`${manifest.slug}: generated architecture is stale; run npm run architecture:sync`);
+  }
+  return {
+    ...manifest,
+    presentation: {
+      question: manifest.presentation?.question ?? `What problem does ${manifest.title} solve?`,
+      answer: manifest.presentation?.answer ?? manifest.outcome,
+      ...manifest.presentation,
+      architectureAlt: manifest.presentation?.architectureAlt ?? `${manifest.title} system architecture`,
+      architectureImage: `/assets/projects/${manifest.slug}/system.png`,
+    },
+  };
 }
 
 async function writeProjections(manifests) {
@@ -102,7 +130,7 @@ for (let index = 0; index < manifests.length; index += 1) {
   validateManifest(manifest, repository, { profile: entry.validationProfile ?? "publication" });
   if (slugs.has(manifest.slug)) throw new Error(`${repository}: duplicate slug ${manifest.slug}`);
   slugs.add(manifest.slug);
-  const localizedManifest = await localizePresentationAssets(entry, manifest);
+  const localizedManifest = await attachGeneratedArchitecture(entry, await localizePresentationAssets(entry, manifest));
   manifests[index] = {
     ...localizedManifest,
     portfolio: entry.portfolio,
