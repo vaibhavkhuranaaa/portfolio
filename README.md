@@ -6,12 +6,11 @@ Production-shaped AI systems, retrieval applications, agents, and data platforms
 
 <!-- approved-projects:start -->
 
-Generated from the approved portfolio catalog at `2026-07-24T00:05:06.872Z`. Project rows are not edited by hand.
+Generated from the approved portfolio catalog at `2026-07-24T03:44:59.373Z`. Project rows are not edited by hand.
 
 | Project | Focus | Deployment | Evidence | Source |
 | --- | --- | --- | --- | --- |
-| [Legal Document Intelligence RAG](https://github.com/vaibhavkhuranaaa/legal-document-intelligence-rag) | A deployed Azure RAG research workspace for citation-grounded questions over public M&A litigation and transaction documents. | Live claim; verification profile required | The 45-question release benchmark recorded retrieval hit rate@8 1.0 and citation-provenance validity 1.0.; The current Azure App Service application root returned HTTP 200.; The deployed retrieval corpus is derived from registered public court and SEC sources, not confidential client documents. | `feeefeba5008` |
-| [Legal Discovery Intelligence Graph](https://github.com/vaibhavkhuranaaa/legal-discovery-intelligence-graph) | A deployed Graph RAG investigation workspace with cited evidence, entity graphs, and reproducible evaluation. | Live claim; verification profile required | Entity-mention extraction achieved micro F1 0.887 strict on the committed synthetic corpus.; Hybrid retrieval achieved R@10 0.857 and graph expansion improved relationship hit@5 to 0.833.; Privilege and synthetic-PII rules achieved F1 1.0 on clean templated text. | `c893da65f171` |
+| [Legal Discovery Intelligence Graph](https://github.com/vaibhavkhuranaaa/legal-discovery-intelligence-graph) | A deployed Graph RAG investigation workspace with cited evidence, entity graphs, and reproducible evaluation. | Live claim; verification profile required | Entity-mention extraction achieved micro F1 0.887 strict on the committed synthetic corpus.; Hybrid retrieval achieved R@10 0.857 and graph expansion improved relationship hit@5 to 0.833.; Privilege and synthetic-PII rules achieved F1 1.0 on clean templated text. | `c893da65f17121cf8616f1865f946efec2cf935d` |
 
 <!-- approved-projects:end -->
 
