@@ -12,7 +12,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  VERCEL_CLI_VERSION: 48.10.0
+  VERCEL_CLI_VERSION: 56.3.2
 
 jobs:
   preview:
