@@ -1,0 +1,1128 @@
+[
+  {
+    "version": 2,
+    "slug": "legal-discovery-intelligence-graph",
+    "title": "Legal Discovery Intelligence Graph",
+    "summary": "A deployed Graph RAG investigation workspace with cited evidence, entity graphs, and reproducible evaluation.",
+    "outcome": "A public synthetic-matter investigation workflow combines vector and graph retrieval, cited evidence, timelines, privilege/PII flags, calibrated refusal, and an auditable case brief.",
+    "industries": [
+      "Legal technology"
+    ],
+    "categories": [
+      "AI/ML",
+      "Analytics",
+      "Data Engineering"
+    ],
+    "stack": [
+      "Python",
+      "Flask",
+      "LangChain",
+      "sentence-transformers",
+      "ONNX Runtime",
+      "PostgreSQL + pgvector",
+      "Neo4j AuraDB",
+      "Supabase",
+      "Plotly"
+    ],
+    "githubUrl": "https://github.com/vaibhavkhuranaaa/legal-discovery-intelligence-graph",
+    "liveUrl": "https://legal-discovery-intelligence-graph.onrender.com",
+    "deployment": {
+      "provider": "Render",
+      "status": "live",
+      "runtime": "Flask + gunicorn with an ONNX embedding backend",
+      "exposure": "anonymous",
+      "productionClaim": false,
+      "verifiedAt": "2026-07-23T20:52:19Z",
+      "expiresAt": null,
+      "evidenceRefs": [
+        "deployment.render-root"
+      ]
+    },
+    "metrics": [
+      "Entity-mention extraction micro F1 0.887 strict on the 455-document synthetic corpus",
+      "Hybrid retrieval R@10 0.857 on the committed dense-corpus evaluation",
+      "Relationship-query hit@5 improved from 0.500 vector-only to 0.833 with graph expansion",
+      "Calibrated refusal accuracy 0.868",
+      "Privilege and synthetic-PII flag F1 1.0 on clean templated text"
+    ],
+    "stages": [
+      "Deterministic synthetic corpus and gold-label generation",
+      "Real-file ingestion for PDF, DOCX, and EML",
+      "Entity, event, privilege, and synthetic-PII extraction",
+      "PostgreSQL pgvector indexing and Neo4j graph loading",
+      "Hybrid retrieval with calibrated refusal and cited evidence",
+      "Flask investigation UI with graph, timeline, evaluation, and case brief"
+    ],
+    "architecture": [
+      "Synthetic discovery corpus and gold labels",
+      "Offline extraction and indexing pipeline",
+      "Supabase PostgreSQL with pgvector",
+      "Neo4j AuraDB relationship graph",
+      "Hybrid evidence retriever and refusal policy",
+      "Read-only Render web application"
+    ],
+    "evaluation": [
+      "artifacts/extraction_metrics.json records strict and relaxed span-matching metrics against emitted gold labels",
+      "artifacts/retrieval_metrics.json records vector-only and graph-expanded retrieval by query category and k",
+      "artifacts/flags_metrics.json records document-level privilege and synthetic-PII rule results",
+      "The repository documents the dense-corpus regressions and warns that templated synthetic text overstates real-world performance"
+    ],
+    "operationalTradeoffs": [
+      "Graph expansion materially improves relationship hit@5 but can dilute some dense-corpus results at larger k",
+      "The Render free tier sleeps, has a constrained memory envelope, and requires an ONNX backend rather than torch",
+      "The public app is deliberately read-only and synthetic; real eDiscovery would require access control, matter isolation, OCR, retention, and legal/privacy review",
+      "A public HTTP response is verified, but this is not an availability, confidentiality, or production-SLO claim"
+    ],
+    "disclaimer": "All documents, people, companies, amounts, identifiers, and events are synthetic and fictional. Metrics are reproducible results on templated synthetic text and are not claims about real legal matters, privilege determinations, or production discovery performance.",
+    "presentation": {
+      "question": "How can an investigator move from a large discovery record to evidence they can inspect and trace?",
+      "answer": "Model the corpus through complementary vector and graph retrieval, preserve provenance at every hop, and refuse when the evidence threshold is not met.",
+      "decisionSupported": "Whether a relationship or event is supported by cited evidence in the fictional matter.",
+      "architectureAlt": "System architecture showing a reviewer, synthetic discovery inputs, validation and extraction, vector and graph stores, hybrid retrieval, security boundary, observability, Render deployment, cited outputs, and the evaluation loop.",
+      "evaluationMode": "deterministic local evaluation on a synthetic corpus plus a live reachability observation",
+      "publicationStatus": "review_required",
+      "technologyRoles": {
+        "Python": "Application, extraction, and evaluation language",
+        "Flask": "Read-only investigation interface",
+        "LangChain": "Hybrid retrieval orchestration",
+        "sentence-transformers": "Embedding model",
+        "ONNX Runtime": "Memory-bounded deployed inference",
+        "PostgreSQL + pgvector": "Vector retrieval store",
+        "Neo4j AuraDB": "Relationship graph",
+        "Supabase": "Hosted PostgreSQL provider",
+        "Plotly": "Timeline and analytical visuals"
+      },
+      "quickStart": [
+        {
+          "label": "Install and verify",
+          "command": "uv sync --frozen\nuv run ruff check .\nuv run pytest -q"
+        },
+        {
+          "label": "Generate the synthetic corpus and evaluation",
+          "command": "uv run python scripts/bootstrap_data.py\nuv run python scripts/evaluate_extraction.py\nuv run python scripts/evaluate_flags.py"
+        },
+        {
+          "label": "Run the local product",
+          "command": "uv run flask --app legal_discovery_graph.webapp run"
+        }
+      ],
+      "securityControls": [
+        {
+          "control": "Synthetic-only public corpus",
+          "implementation": "The generator creates fictional documents, people, organizations, events, identifiers, and gold labels.",
+          "evidenceRefs": [
+            "disclosure.synthetic-corpus"
+          ],
+          "limitation": "Synthetic templated text is cleaner than real discovery material."
+        },
+        {
+          "control": "Evidence threshold and explicit refusal",
+          "implementation": "The retriever returns an explicit unsupported state when the calibrated evidence threshold is not met.",
+          "evidenceRefs": [
+            "evaluation.hybrid-retrieval"
+          ],
+          "limitation": "A calibrated threshold on this corpus is not a legal-correctness guarantee."
+        },
+        {
+          "control": "Read-only public presentation",
+          "implementation": "The public application exposes the fictional matter and aggregate evidence without a real-client upload path.",
+          "evidenceRefs": [
+            "deployment.render-root",
+            "disclosure.synthetic-corpus"
+          ],
+          "limitation": "The demo has no authenticated matter isolation or production confidentiality posture."
+        }
+      ],
+      "costBoundaries": [
+        {
+          "component": "Render web service",
+          "boundary": "Free-tier, memory-constrained, sleep-prone deployment using ONNX instead of PyTorch.",
+          "implication": "Cold starts and availability variation are expected; no SLO is claimed."
+        },
+        {
+          "component": "Supabase and Neo4j AuraDB",
+          "boundary": "Portfolio-scale hosted data services for a synthetic corpus.",
+          "implication": "A real matter would require an owner-approved capacity, retention, and security budget."
+        }
+      ],
+      "repositoryStructure": [
+        {
+          "path": "src/legal_discovery_graph/",
+          "purpose": "Application, extraction, retrieval, graph, and interface code."
+        },
+        {
+          "path": "scripts/",
+          "purpose": "Deterministic corpus, indexing, evaluation, ingestion, and presentation commands."
+        },
+        {
+          "path": "artifacts/",
+          "purpose": "Committed aggregate evaluation evidence."
+        },
+        {
+          "path": "architecture/system.mmd",
+          "purpose": "Canonical editable architecture source."
+        },
+        {
+          "path": "portfolio/",
+          "purpose": "Public evidence manifest and generated presentation assets."
+        },
+        {
+          "path": "docs/",
+          "purpose": "State, handoff, data, deployment, scaling, and decision records."
+        }
+      ],
+      "verification": [
+        {
+          "check": "Lint",
+          "command": ".venv/bin/python -m ruff check ."
+        },
+        {
+          "check": "Tests",
+          "command": ".venv/bin/python -m pytest -q"
+        },
+        {
+          "check": "Manifest JSON",
+          "command": ".venv/bin/python -m json.tool portfolio/project.json >/dev/null"
+        }
+      ],
+      "licenseNote": "Source code is MIT licensed. The committed corpus is repository-generated and fictional.",
+      "architectureImage": "/assets/projects/legal-discovery-intelligence-graph/system.png"
+    },
+    "dataDisclosure": {
+      "source": "Repository-generated Project Falcon synthetic legal-discovery corpus, seed 42",
+      "license": "Repository project license; no third-party client or matter data",
+      "classification": "synthetic",
+      "permittedUse": "Portfolio demonstration, deterministic evaluation, and engineering research",
+      "includedFields": [
+        "Fictional documents, entities, events, amounts, relationships, and planted evidence",
+        "Synthetic privilege and PII-like labels used solely for evaluation"
+      ],
+      "excludedFields": [
+        "Real client, employee, custodian, matter, communication, and personal data",
+        "Production legal advice, privilege determinations, and discovery decisions"
+      ],
+      "deployedArtifactContents": [
+        "Synthetic corpus-derived indexes and graph records",
+        "Read-only Flask application and committed aggregate evaluation artifacts",
+        "No real discovery files or client data"
+      ]
+    },
+    "evidence": [
+      {
+        "id": "evaluation.entity-extraction",
+        "kind": "evaluation",
+        "claim": "Entity-mention extraction achieved micro F1 0.887 strict on the committed synthetic corpus.",
+        "source": "artifacts/extraction_metrics.json",
+        "method": "One-to-one strict span matching against generator-emitted gold labels",
+        "result": 0.887,
+        "scope": "2,223 entity mentions in a deterministic 455-document synthetic corpus, seed 42",
+        "observedAt": "2026-07-15T00:00:00Z",
+        "environment": "Local deterministic evaluation",
+        "classification": "synthetic",
+        "execution": "deterministic",
+        "caveat": "Clean templated text materially overstates expected performance on real discovery documents."
+      },
+      {
+        "id": "evaluation.hybrid-retrieval",
+        "kind": "evaluation",
+        "claim": "Hybrid retrieval achieved R@10 0.857 and graph expansion improved relationship hit@5 to 0.833.",
+        "source": "artifacts/retrieval_metrics.json",
+        "method": "Versioned labeled-query evaluation comparing vector-only and graph-expanded retrieval",
+        "result": "R@10 0.857 / relationship hit@5 0.833",
+        "scope": "38 categorized retrieval queries over the 455-document synthetic corpus",
+        "observedAt": "2026-07-15T00:00:00Z",
+        "environment": "Local integration evaluation against configured vector and graph stores",
+        "classification": "synthetic",
+        "execution": "integration",
+        "caveat": "Graph expansion improves relationship queries but can dilute dense-corpus ranking at larger k."
+      },
+      {
+        "id": "evaluation.privilege-pii-flags",
+        "kind": "evaluation",
+        "claim": "Privilege and synthetic-PII rules achieved F1 1.0 on clean templated text.",
+        "source": "artifacts/flags_metrics.json",
+        "method": "Document-level rule evaluation against synthetic gold labels",
+        "result": 1
+      },
+      {
+        "id": "deployment.render-root",
+        "kind": "deployment",
+        "claim": "The current Render application root returned HTTP 200.",
+        "source": "evidence/deployment/live-check.json",
+        "method": "Read-only HTTP request with redirects followed; no user data submitted",
+        "result": true,
+        "scope": "Application root only",
+        "observedAt": "2026-07-23T20:52:19Z",
+        "environment": "Render public endpoint",
+        "classification": "synthetic",
+        "execution": "live",
+        "caveat": "HTTP reachability is not availability, confidentiality, security, or production-readiness evidence."
+      },
+      {
+        "id": "disclosure.synthetic-corpus",
+        "kind": "disclosure",
+        "claim": "The corpus, gold labels, people, organizations, identifiers, and events are generated and fictional.",
+        "source": "docs/DATA_AND_EVALUATION.md",
+        "method": "Versioned generator and data/evaluation documentation review",
+        "result": "synthetic"
+      }
+    ],
+    "story": {
+      "recruiterSummary": "Legal discovery teams need to connect people, events, documents, and evidence without losing the source trail. This project demonstrates that workflow on a fully fictional matter: reviewers can search, traverse relationships, inspect a timeline, and open cited documents while the product clearly distinguishes evidence from generated structure.",
+      "technicalNarrative": "A deterministic generator emits a 455-document corpus and gold labels. Offline pipelines extract entities/events, create pgvector embeddings, and load Neo4j relationships. The deployed Flask app uses an ONNX embedding backend within Render's memory limit, fuses vector and graph retrieval, applies a calibrated refusal threshold, and renders cited results, graphs, timelines, flags, and evaluation artifacts.",
+      "scalabilityRoadmap": [
+        "Add authenticated matter isolation, role-based access, audit retention, and encrypted document storage",
+        "Introduce OCR and robust parsing for scans, forwarded chains, and production document variance",
+        "Move ingestion and indexing to background workers with versioned index promotion",
+        "Add real-world benchmark sets under appropriate legal/data agreements and revalidate thresholds",
+        "Retire free-tier keep-alive behavior under an owner-approved paid reliability envelope"
+      ],
+      "executiveSummary": "A public, evidence-first Graph RAG case workspace built on a reproducible synthetic legal matter.",
+      "intendedUser": "A legal-technology reviewer or discovery analyst evaluating evidence retrieval and relationship navigation.",
+      "example": {
+        "title": "Investigate a relationship while retaining citations",
+        "steps": [
+          "Open the fictional matter and choose a guided investigation question",
+          "Review hybrid search results and the calibrated evidence/refusal state",
+          "Traverse related entities and events in the graph and timeline",
+          "Open cited synthetic documents and compare the result with committed evaluation"
+        ]
+      },
+      "technologyDecisions": [
+        {
+          "technology": "PostgreSQL pgvector plus Neo4j",
+          "rationale": "Vector similarity and explicit relationship traversal serve complementary discovery questions.",
+          "alternative": "Vector search alone",
+          "tradeoff": "Two stores add operational complexity, and graph expansion requires category-level regression measurement."
+        },
+        {
+          "technology": "ONNX Runtime on Render",
+          "rationale": "Fits the embedding model inside the free-tier memory envelope while preserving measured vector parity.",
+          "alternative": "PyTorch sentence-transformers runtime",
+          "tradeoff": "Requires an exported model and parity testing but avoids the deployed worker's torch memory failure."
+        }
+      ],
+      "evidence": [
+        {
+          "value": "0.887",
+          "label": "strict entity F1",
+          "context": "455-document deterministic synthetic corpus.",
+          "method": "Committed extraction evaluation.",
+          "evidenceRefs": [
+            "evaluation.entity-extraction"
+          ]
+        },
+        {
+          "value": "0.833",
+          "label": "relationship hit@5",
+          "context": "Graph-expanded retrieval versus 0.500 vector-only.",
+          "method": "Committed retrieval evaluation.",
+          "evidenceRefs": [
+            "evaluation.hybrid-retrieval"
+          ]
+        }
+      ],
+      "limitations": [
+        "Synthetic templated text is materially cleaner than real discovery data.",
+        "The public demo has no real-client security or matter-isolation posture.",
+        "Free-tier services can sleep or pause and do not establish an availability SLO.",
+        "Privilege/PII flags are research aids, not legal or privacy determinations."
+      ]
+    },
+    "resume": {
+      "bulletCandidates": [
+        {
+          "role": "AI Engineer",
+          "bullet": "Built a deployed Graph RAG investigation workspace with Flask, pgvector, Neo4j, ONNX embeddings, cited evidence, and calibrated refusal, achieving 0.887 strict entity F1 on a 455-document synthetic corpus.",
+          "evidenceRefs": [
+            "evaluation.entity-extraction",
+            "deployment.render-root"
+          ]
+        },
+        {
+          "role": "Data Scientist",
+          "bullet": "Evaluated vector and graph-expanded retrieval by query category, improving relationship-query hit@5 from 0.500 to 0.833 while documenting dense-corpus tradeoffs.",
+          "evidenceRefs": [
+            "evaluation.hybrid-retrieval"
+          ]
+        }
+      ]
+    },
+    "portfolio": {
+      "status": "approved",
+      "approvedAt": "2026-07-24",
+      "featured": true,
+      "sortOrder": 10
+    },
+    "source": {
+      "repository": "vaibhavkhuranaaa/legal-discovery-intelligence-graph",
+      "sourceRef": "20a41a19c145e118a4aea3b7dba5256274bf0714",
+      "manifestPath": "portfolio/project.json"
+    }
+  },
+  {
+    "version": 2,
+    "slug": "legal-document-intelligence-rag",
+    "title": "Legal Document Intelligence RAG",
+    "summary": "A deployed Azure RAG research workspace for citation-grounded questions over public M&A litigation and transaction documents.",
+    "outcome": "A versioned public-document pipeline turns court opinions and SEC filings into 3,055 searchable chunks and returns evidence-linked answers with an explicit refusal path.",
+    "industries": [
+      "Legal technology"
+    ],
+    "categories": [
+      "AI/ML",
+      "Cloud"
+    ],
+    "stack": [
+      "Python",
+      "Flask",
+      "Azure Document Intelligence",
+      "Azure OpenAI",
+      "Azure AI Search",
+      "Azure Blob Storage"
+    ],
+    "githubUrl": "https://github.com/vaibhavkhuranaaa/legal-document-intelligence-rag",
+    "liveUrl": "https://app-legal-rag-prod-278f1d.azurewebsites.net/",
+    "deployment": {
+      "provider": "Azure",
+      "status": "live",
+      "runtime": "Flask and Gunicorn on Azure App Service with managed identity, Azure AI Search, and Blob Storage",
+      "exposure": "anonymous",
+      "productionClaim": false,
+      "verifiedAt": "2026-07-23T20:57:44Z",
+      "expiresAt": null,
+      "evidenceRefs": [
+        "deployment.azure-root"
+      ]
+    },
+    "metrics": [
+      "Retrieval hit rate@8 1.0 on the 45-question gold-qa-v2-delaware-expansion benchmark",
+      "Citation-provenance validity 1.0 on the same versioned benchmark",
+      "3,055 public chunks in the promoted r3 Azure AI Search index"
+    ],
+    "stages": [
+      "Public source registration and checksum validation",
+      "Azure Document Intelligence and native SEC HTML extraction",
+      "Structure-aware chunking and embeddings",
+      "Azure AI Search retrieval",
+      "Citation-required grounded generation and refusal",
+      "Read-only Flask research workspace on Azure App Service"
+    ],
+    "architecture": [
+      "Public court opinions and SEC transaction documents",
+      "Versioned extraction adapters and document records",
+      "Structure-aware public corpus chunks",
+      "Azure AI Search retrieval index",
+      "Azure OpenAI grounded answer service",
+      "Flask evidence workspace with source links"
+    ],
+    "evaluation": [
+      "data/evaluation/latest.json records the 45-question gold-qa-v2-delaware-expansion release evaluation",
+      "Retrieval hit rate and citation provenance measure corpus retrieval and citation traceability, not legal-answer correctness",
+      "The release runbook requires corpus, retrieval, citation, refusal, and post-deployment route checks"
+    ],
+    "operationalTradeoffs": [
+      "Azure managed services simplify identity and hosted retrieval but add cloud-resource cost and release coordination",
+      "The public endpoint is anonymous and read-only; it is not a confidential eDiscovery workspace or production legal service",
+      "The current evaluation proves retrieval and provenance, not attorney-reviewed answer accuracy",
+      "The promoted r3 index has a separately retained r2 rollback index"
+    ],
+    "disclaimer": "Uses public court opinions and public SEC transaction documents. The application provides legal information for engineering demonstration and is not legal advice.",
+    "presentation": {
+      "question": "How can legal research return an evidence-linked answer without wandering beyond an approved public corpus?",
+      "answer": "Register and checksum the source boundary, preserve document structure, retrieve only from the promoted index, and require citations or an explicit refusal.",
+      "decisionSupported": "Whether the public corpus contains retrievable, traceable evidence for the research question.",
+      "architectureAlt": "System architecture showing a legal researcher, registered public court and SEC sources, checksum validation, extraction, chunk storage, Azure AI Search, Azure OpenAI, managed identity, observability, deployment, cited output, and evaluation.",
+      "evaluationMode": "versioned integration evaluation against the promoted public retrieval index plus a live reachability observation",
+      "publicationStatus": "review_required",
+      "technologyRoles": {
+        "Python": "Application, adapters, and evaluation language",
+        "Flask": "Read-only research workspace",
+        "Azure Document Intelligence": "Public PDF extraction",
+        "Azure OpenAI": "Evidence-constrained answer generation",
+        "Azure AI Search": "Promoted public-corpus retrieval index",
+        "Azure Blob Storage": "Versioned public document storage"
+      },
+      "quickStart": [
+        {
+          "label": "Install and verify",
+          "command": "uv sync --all-extras\nuv run ruff check .\nPYTHONPATH=src uv run pytest -q"
+        },
+        {
+          "label": "Run the local workspace",
+          "command": "uv run flask --app legal_rag.ui.flask_app:app run --port 8503"
+        },
+        {
+          "label": "Review release evidence",
+          "command": "python -m json.tool data/evaluation/latest.json\npython -m json.tool portfolio/project.json"
+        }
+      ],
+      "securityControls": [
+        {
+          "control": "Registered public-source boundary",
+          "implementation": "Every corpus document is registered with its canonical public URL and checksum before extraction.",
+          "evidenceRefs": [
+            "disclosure.public-corpus"
+          ],
+          "limitation": "Public availability does not make every source term identical; source-specific reuse terms still apply."
+        },
+        {
+          "control": "Managed identity",
+          "implementation": "The deployed application authenticates to Azure resources without committed application credentials.",
+          "evidenceRefs": [
+            "deployment.azure-root"
+          ],
+          "limitation": "Managed identity does not turn the anonymous interface into a confidential legal-matter system."
+        },
+        {
+          "control": "Citation-required generation",
+          "implementation": "Answers are generated only from retrieved public evidence and retain source, section, page, and checksum provenance.",
+          "evidenceRefs": [
+            "evaluation.release-v2"
+          ],
+          "limitation": "Retrieval and provenance metrics do not establish attorney-reviewed answer correctness."
+        }
+      ],
+      "costBoundaries": [
+        {
+          "component": "Azure AI Search and Azure OpenAI",
+          "boundary": "Owner-managed Azure services with a promoted 3,055-chunk public index.",
+          "implication": "Managed retrieval and model calls incur cloud cost and require explicit index-release coordination."
+        },
+        {
+          "component": "Azure App Service and Blob Storage",
+          "boundary": "Read-only anonymous portfolio demonstration over public documents.",
+          "implication": "Confidential uploads, retention, malware scanning, and production monitoring are outside the approved scope."
+        }
+      ],
+      "repositoryStructure": [
+        {
+          "path": "src/",
+          "purpose": "Typed ingestion, extraction, chunking, retrieval, generation, and web application code."
+        },
+        {
+          "path": "data/dataset_manifest.json",
+          "purpose": "Canonical public-source registry and checksums."
+        },
+        {
+          "path": "data/evaluation/latest.json",
+          "purpose": "Versioned release evaluation evidence."
+        },
+        {
+          "path": "architecture/system.mmd",
+          "purpose": "Canonical editable architecture source."
+        },
+        {
+          "path": "portfolio/",
+          "purpose": "Public evidence manifest and generated presentation assets."
+        },
+        {
+          "path": "docs/",
+          "purpose": "State, handoff, deployment, decisions, architecture, and release records."
+        }
+      ],
+      "verification": [
+        {
+          "check": "Lint",
+          "command": ".venv/bin/python -m ruff check ."
+        },
+        {
+          "check": "Tests",
+          "command": "PYTHONPATH=src .venv/bin/python -m pytest -q",
+          "evidenceRef": "test.repository-suite"
+        },
+        {
+          "check": "Manifest JSON",
+          "command": ".venv/bin/python -m json.tool portfolio/project.json >/dev/null"
+        }
+      ],
+      "licenseNote": "Source code is MIT licensed. Public documents retain their source-specific terms and attribution.",
+      "architectureImage": "/assets/projects/legal-document-intelligence-rag/system.png"
+    },
+    "dataDisclosure": {
+      "source": "Official public Delaware court opinions and public SEC transaction documents registered with source URLs and checksums",
+      "license": "Public official-source documents; source-specific terms and United States government/public-record status apply",
+      "classification": "public",
+      "permittedUse": "Read-only portfolio demonstration, retrieval evaluation, and engineering research with source attribution",
+      "includedFields": [
+        "Public document text and extracted structural elements",
+        "Case, court, filing, section, page, checksum, and canonical source metadata",
+        "Embeddings and retrieval chunks derived from the registered public corpus"
+      ],
+      "excludedFields": [
+        "Client, firm, user-uploaded, confidential, privileged, and personal matter data",
+        "Private credentials, local environment files, and raw authorization material",
+        "Legal opinions, attorney work product, and production discovery decisions"
+      ],
+      "deployedArtifactContents": [
+        "A promoted Azure AI Search index containing 3,055 chunks derived from approved public documents",
+        "Public-source citation metadata and aggregate evaluation results",
+        "Read-only Flask application code; no private user-upload workflow"
+      ]
+    },
+    "evidence": [
+      {
+        "id": "evaluation.release-v2",
+        "kind": "evaluation",
+        "claim": "The 45-question release benchmark recorded retrieval hit rate@8 1.0 and citation-provenance validity 1.0.",
+        "source": "data/evaluation/latest.json",
+        "method": "Run the versioned gold-qa-v2-delaware-expansion evaluation against the configured promoted retrieval index.",
+        "result": "retrieval 1.0 / citation provenance 1.0",
+        "scope": "45-question gold-qa-v2-delaware-expansion benchmark over the promoted 3,055-chunk public index",
+        "observedAt": "2026-07-23T00:00:00Z",
+        "environment": "Azure AI Search promoted r3 index",
+        "classification": "public",
+        "execution": "integration",
+        "caveat": "The benchmark measures retrieval hit rate and citation provenance, not legal-answer correctness.",
+        "counts": {
+          "total": 45
+        }
+      },
+      {
+        "id": "deployment.azure-root",
+        "kind": "deployment",
+        "claim": "The current Azure App Service application root returned HTTP 200.",
+        "source": "evidence/deployment/live-check.json",
+        "method": "Read-only HTTP request with redirects followed; no user data submitted.",
+        "result": true,
+        "scope": "Azure App Service application root only",
+        "observedAt": "2026-07-23T20:57:44Z",
+        "environment": "Azure App Service public endpoint",
+        "classification": "public",
+        "execution": "live",
+        "caveat": "HTTP reachability is not availability, confidentiality, security, or production-readiness evidence."
+      },
+      {
+        "id": "disclosure.public-corpus",
+        "kind": "disclosure",
+        "claim": "The deployed retrieval corpus is derived from registered public court and SEC sources, not confidential client documents.",
+        "source": "data/dataset_manifest.json and docs/deployment.md",
+        "method": "Review the versioned source registry, checksums, production index inventory, and documented environment boundary.",
+        "result": "public"
+      },
+      {
+        "id": "test.repository-suite",
+        "kind": "test",
+        "claim": "The repository test suite passed locally when source import resolution was made explicit.",
+        "source": "docs/STATE.md",
+        "method": "Run `PYTHONPATH=src .venv/bin/python -m pytest -q` after detecting stale editable-install paths in the generated virtual environment.",
+        "result": "178 passed",
+        "scope": "Repository unit and integration test suite",
+        "observedAt": "2026-07-23T00:00:00Z",
+        "environment": "Local Python 3.12 virtual environment",
+        "classification": "public",
+        "execution": "local",
+        "caveat": "Passing repository tests does not establish production availability or legal-answer accuracy.",
+        "counts": {
+          "total": 178,
+          "passed": 178,
+          "failed": 0
+        }
+      }
+    ],
+    "story": {
+      "recruiterSummary": "Legal teams need answers that stay attached to the source, especially when documents are long and high stakes. This project demonstrates an evidence-first research workflow over public M&A litigation and transaction documents: a reviewer asks a question, receives a grounded answer, and can inspect the cited document, section, and page rather than trusting an unsupported response.",
+      "technicalNarrative": "Versioned adapters ingest public PDFs through Azure Document Intelligence and public SEC HTML through a native parser, normalize them into stable records, and build structure-aware chunks. Azure AI Search retrieves the promoted public corpus; Azure OpenAI generates only from that evidence, while the Flask workspace exposes research, corpus, evaluation, and health views. Managed identity separates deployed resources from local credentials, and the corpus index is promoted independently from application deployment.",
+      "scalabilityRoadmap": [
+        "Add attorney-reviewed answer and citation-correctness evaluation beyond retrieval and provenance checks",
+        "Replace the residual style-based legal-outline parser heuristics with a branch-aware outline state machine",
+        "Add authenticated matter isolation, encrypted private storage, malware scanning, retention, and audit controls before any user uploads",
+        "Move ingestion and index construction to durable background workflows with reviewed index promotion",
+        "Add quota, cost, abuse, availability, and security monitoring appropriate to an owner-approved production service"
+      ],
+      "executiveSummary": "An Azure-hosted, evidence-first RAG workspace that makes every supported answer traceable to a registered public legal source.",
+      "intendedUser": "A legal-technology reviewer or AI engineering hiring manager evaluating trustworthy document retrieval and deployment practices.",
+      "example": {
+        "title": "Ask a legal research question and inspect the evidence",
+        "steps": [
+          "Ask a question about a document in the registered public corpus",
+          "Review the grounded answer or explicit refusal",
+          "Open the numbered citations and inspect case, section, page, and canonical source",
+          "Compare release metrics with the committed evaluation artifact"
+        ]
+      },
+      "technologyDecisions": [
+        {
+          "technology": "Azure AI Search with Azure OpenAI",
+          "rationale": "Managed retrieval, identity, and model services support a deployable Azure reference architecture.",
+          "alternative": "Local Chroma and API-key based model access",
+          "tradeoff": "The managed path improves deployment boundaries but costs more and requires explicit corpus-index promotion."
+        },
+        {
+          "technology": "Vendor-neutral extraction records",
+          "rationale": "Azure SDK objects terminate at the adapter so parsing, chunking, evaluation, and storage remain testable.",
+          "alternative": "Propagate Azure SDK types through the pipeline",
+          "tradeoff": "The stable boundary adds mapping code but reduces provider coupling and keeps tests deterministic."
+        }
+      ],
+      "evidence": [
+        {
+          "value": "1.0",
+          "label": "retrieval hit rate@8",
+          "context": "45-question versioned release benchmark.",
+          "method": "Committed release evaluation against the promoted index.",
+          "evidenceRefs": [
+            "evaluation.release-v2"
+          ]
+        },
+        {
+          "value": "3,055",
+          "label": "public retrieval chunks",
+          "context": "Promoted r3 Azure AI Search corpus with r2 retained for rollback.",
+          "method": "Versioned deployment runbook and promoted-index inventory.",
+          "evidenceRefs": [
+            "disclosure.public-corpus"
+          ]
+        }
+      ],
+      "limitations": [
+        "The public endpoint is anonymous and does not have the controls required for confidential legal matters.",
+        "The evaluation does not establish legal-answer correctness or legal advice quality.",
+        "Some source-specific reuse terms may differ even though the documents are available from official public sources.",
+        "HTTP reachability does not establish an availability, confidentiality, security, or production SLO."
+      ]
+    },
+    "resume": {
+      "bulletCandidates": [
+        {
+          "role": "AI Engineer",
+          "bullet": "Built and deployed an Azure RAG workspace using Document Intelligence, AI Search, Azure OpenAI, managed identity, and citation-required generation over a 3,055-chunk public legal corpus.",
+          "evidenceRefs": [
+            "disclosure.public-corpus",
+            "deployment.azure-root"
+          ]
+        },
+        {
+          "role": "Machine Learning Engineer",
+          "bullet": "Versioned and evaluated a 45-question legal retrieval benchmark, recording 1.0 retrieval hit rate@8 and 1.0 citation-provenance validity while explicitly separating those metrics from legal-answer accuracy.",
+          "evidenceRefs": [
+            "evaluation.release-v2"
+          ]
+        }
+      ]
+    },
+    "portfolio": {
+      "status": "approved",
+      "approvedAt": "2026-07-24",
+      "featured": false,
+      "sortOrder": 20
+    },
+    "source": {
+      "repository": "vaibhavkhuranaaa/legal-document-intelligence-rag",
+      "sourceRef": "d18ef4a427dc6db66bd3d12c43cc941d5b1a0ba7",
+      "manifestPath": "portfolio/project.json"
+    }
+  },
+  {
+    "version": 2,
+    "slug": "text-to-sql-guardrails",
+    "title": "Text-to-SQL Interface with Guardrails and Hallucination Detection",
+    "summary": "An approval-gated analyst console that turns bounded natural-language questions into policy-checked, read-only SQL over disclosed synthetic data.",
+    "outcome": "Reviewers can inspect SQL, assumptions, schema lineage, policy checks, and a bounded result preview before one single-use execution; unsafe, malformed, identifier-exposing, and hallucinated-schema queries fail closed.",
+    "industries": [
+      "Financial services"
+    ],
+    "categories": [
+      "AI/ML",
+      "Data Engineering",
+      "Cloud"
+    ],
+    "stack": [
+      "Python",
+      "FastAPI",
+      "DuckDB",
+      "SQLGlot",
+      "Azure OpenAI",
+      "Microsoft Entra ID",
+      "Azure Container Apps",
+      "Docker",
+      "OpenTelemetry"
+    ],
+    "githubUrl": "https://github.com/vaibhavkhuranaaa/text-to-sql-guardrails",
+    "liveUrl": "https://ca-text-sql-guardrails-dev.whitesky-593b85cb.eastus.azurecontainerapps.io",
+    "deployment": {
+      "provider": "Azure Container Apps",
+      "status": "live",
+      "runtime": "Scale-to-zero FastAPI container using the committed demo fixture and ephemeral SQLite proposal state",
+      "exposure": "anonymous",
+      "productionClaim": false,
+      "verifiedAt": "2026-07-24T04:25:22.107862Z",
+      "evidenceRefs": [
+        "deployment.anonymous-live-demo",
+        "security.demo-fixture-boundary"
+      ]
+    },
+    "metrics": [
+      "18 of 18 deterministic local evaluation cases matched their expected trusted or refused outcome",
+      "100% safety-rejection rate across the committed unsafe-policy evaluation cases",
+      "100% hallucination-detection rate across the committed unknown-table and unknown-column cases",
+      "6 status-only public route, fixture-boundary, and deployed-control checks passed on the anonymous live demo"
+    ],
+    "stages": [
+      "Curated semantic catalog and explicit data classification",
+      "Azure OpenAI SQL proposal generation through Microsoft Entra ID",
+      "Parser-backed table, column, function, statement, and resource policy checks",
+      "Human review with short-lived single-use approval",
+      "Policy and snapshot revalidation before read-only DuckDB execution",
+      "Bounded result preview with privacy-preserving lifecycle events"
+    ],
+    "architecture": [
+      "Anonymous live analyst console",
+      "FastAPI proposal and approval APIs",
+      "Azure OpenAI proposal adapter using managed identity",
+      "SQLGlot policy engine and DuckDB EXPLAIN",
+      "Ephemeral SQLite approval store",
+      "Read-only DuckDB execution over a hand-authored synthetic demo fixture",
+      "Structured status-only deployment evidence"
+    ],
+    "evaluation": [
+      "evaluation/report.json is regenerated from the committed fixture and records 18 deterministic policy cases",
+      "The public verification record checks root, evaluation, examples, safe preview, and the active demo-fixture boundary without retaining SQL or result rows",
+      "A separate local Entra-authenticated proposal-to-approved-execution lifecycle is integration evidence, not a production benchmark"
+    ],
+    "operationalTradeoffs": [
+      "Anonymous access makes recruiter review easy but provides no caller identity or authorization boundary",
+      "The deployed rate, proposal-budget, and counter controls are process-local and reset after scale-to-zero or restart",
+      "SQLite under /tmp is appropriate only for the zero-to-one-replica anonymous demo because proposal state is lost on scale-to-zero or restart and cannot coordinate replicas",
+      "The committed fixture keeps synthetic join identifiers internally, while model context and result previews exclude identifier-like fields",
+      "Local latency and cost observations are not production SLO or cost claims"
+    ],
+    "disclaimer": "Anonymous, non-production demonstration using synthetic data only. It is not a bank system, fraud decision service, security posture, availability claim, or production-readiness claim.",
+    "presentation": {
+      "question": "How can analysts use natural-language SQL proposals without letting model output execute unchecked?",
+      "answer": "Separate proposal from execution, expose assumptions and lineage, enforce parser-backed policy, require short-lived human approval, and revalidate before one bounded read-only preview.",
+      "decisionSupported": "Whether a proposed analytical query is within the classified schema and safe enough for one reviewed execution.",
+      "architectureAlt": "System architecture showing an analyst, synthetic data and semantic catalog, FastAPI proposal and approval interfaces, Azure OpenAI, SQLGlot and DuckDB validation, ephemeral approval storage, read-only execution, privacy boundary, telemetry, deployment controls, and evaluation.",
+      "evaluationMode": "deterministic local policy evaluation plus live status-only integration checks on an anonymous demo",
+      "publicationStatus": "review_required",
+      "technologyRoles": {
+        "Python": "Service, policy, data, and evaluation language",
+        "FastAPI": "Proposal, approval, status, and execution interfaces",
+        "DuckDB": "Read-only analytical execution engine",
+        "SQLGlot": "Parser-backed SQL policy",
+        "Azure OpenAI": "Natural-language SQL proposal generation",
+        "Microsoft Entra ID": "Credential-free Azure authentication",
+        "Azure Container Apps": "Temporary scale-to-zero hosting",
+        "Docker": "Reproducible application boundary",
+        "OpenTelemetry": "Privacy-preserving lifecycle telemetry"
+      },
+      "quickStart": [
+        {
+          "label": "Install and verify",
+          "command": "uv sync --locked --group dev\nuv run ruff format --check .\nuv run ruff check .\nuv run pytest -q"
+        },
+        {
+          "label": "Run the deterministic walkthrough",
+          "command": "uv run guardrails \"What is the total amount of completed payments?\"\nuv run guardrails \"Delete all payments\""
+        },
+        {
+          "label": "Run the local analyst console",
+          "command": "uv run uvicorn guardrails.api:app --reload"
+        }
+      ],
+      "securityControls": [
+        {
+          "control": "Parser-backed read-only SQL policy",
+          "implementation": "SQLGlot validates statement shape, functions, tables, columns, identifier projection, and resource boundaries before DuckDB EXPLAIN or execution.",
+          "evidenceRefs": [
+            "evaluation.local-policy"
+          ],
+          "limitation": "A syntactically safe query can still be semantically wrong, so human review remains mandatory."
+        },
+        {
+          "control": "Data and container boundary",
+          "implementation": "Raw source data and approved snapshots are excluded from the image; model context and previews omit identifier-like fields.",
+          "evidenceRefs": [
+            "security.container-data-boundary",
+            "disclosure.synthetic-data"
+          ],
+          "limitation": "The public fixture remains a small hand-authored synthetic demonstration."
+        },
+        {
+          "control": "Short-lived single-use approval",
+          "implementation": "Execution requires a five-minute token-bound approval and revalidates SQL policy plus the active snapshot checksum.",
+          "evidenceRefs": [
+            "integration.entra-proposal-lifecycle"
+          ],
+          "limitation": "Approval state is ephemeral SQLite and is not durable across restarts or replicas."
+        },
+        {
+          "control": "Anonymous-demo controls",
+          "implementation": "The public revision exposes rate, proposal-budget, and aggregate status controls.",
+          "evidenceRefs": [
+            "deployment.anonymous-live-demo",
+            "security.demo-fixture-boundary"
+          ],
+          "limitation": "Controls are process-local and reset after scale-to-zero or restart; there is no caller authorization."
+        }
+      ],
+      "costBoundaries": [
+        {
+          "component": "Azure Container Apps",
+          "boundary": "Consumption profile with zero-to-one replicas and no automatic expiry.",
+          "implication": "The demo can cold start; no availability SLO is claimed."
+        },
+        {
+          "component": "Azure OpenAI",
+          "boundary": "Proposal-only model call with a per-process budget and a classified semantic catalog.",
+          "implication": "Local latency and cost observations are not production cost or performance claims."
+        },
+        {
+          "component": "Proposal and analytics storage",
+          "boundary": "Ephemeral SQLite plus a read-only synthetic fixture in the public demo.",
+          "implication": "Durable multi-replica operation requires an owner-approved transactional store."
+        }
+      ],
+      "repositoryStructure": [
+        {
+          "path": "src/guardrails/",
+          "purpose": "API, proposal, approval, SQL policy, execution, data, and telemetry code."
+        },
+        {
+          "path": "evaluation/",
+          "purpose": "Deterministic policy cases and generated aggregate report."
+        },
+        {
+          "path": "data/",
+          "purpose": "Synthetic fixture, provenance, classification, and ignored local release artifacts."
+        },
+        {
+          "path": "evidence/deployment/",
+          "purpose": "Status-only deployment verification records."
+        },
+        {
+          "path": "architecture/system.mmd",
+          "purpose": "Canonical editable architecture source."
+        },
+        {
+          "path": "portfolio/",
+          "purpose": "Public evidence manifest and generated presentation assets."
+        }
+      ],
+      "verification": [
+        {
+          "check": "Format and lint",
+          "command": "uv run ruff format --check . && uv run ruff check ."
+        },
+        {
+          "check": "Tests",
+          "command": "uv run pytest -q"
+        },
+        {
+          "check": "Evaluation and manifest",
+          "command": "uv run python scripts/run_evaluation.py && uv run python scripts/validate_manifest.py",
+          "evidenceRef": "evaluation.local-policy"
+        },
+        {
+          "check": "Container configuration",
+          "command": "docker compose config >/dev/null"
+        }
+      ],
+      "licenseNote": "Source code uses the repository license. MoMTSim V2 inspiration is attributed under CC BY 4.0; deployed rows are repository-authored synthetic fixtures.",
+      "architectureImage": "/assets/projects/text-to-sql-guardrails/system.png"
+    },
+    "dataDisclosure": {
+      "source": "Hand-authored synthetic demo fixture inspired by the MoMTSim V2 synthetic mobile-money dataset (DOI 10.17632/zhj366m53p.2)",
+      "license": "MoMTSim V2 is CC BY 4.0; the deployed rows are repository-authored synthetic fixtures rather than redistributed source rows",
+      "classification": "synthetic",
+      "permittedUse": "Portfolio demonstration, deterministic evaluation, and bounded analyst-workflow review",
+      "includedFields": [
+        "Synthetic payment date, amount, status, channel, country, and segment",
+        "Synthetic payment and customer keys used only as internal fixture join mechanics"
+      ],
+      "excludedFields": [
+        "Source initiator and recipient account identifiers",
+        "Real customer, cardholder, bank, credential, and personal data",
+        "Identifier-like fields in model context and public result previews",
+        "The locally generated 4,225,958-row approved DuckDB snapshot"
+      ],
+      "deployedArtifactContents": [
+        "Application source and runtime dependencies",
+        "Hand-authored synthetic payments fixture",
+        "Aggregate deterministic evaluation report",
+        "Dataset provenance and checksum manifest",
+        "No raw source CSV and no data/approved snapshot artifact"
+      ]
+    },
+    "evidence": [
+      {
+        "id": "evaluation.local-policy",
+        "kind": "evaluation",
+        "claim": "All 18 deterministic policy cases matched their expected trusted or refused outcomes.",
+        "source": "evaluation/report.json",
+        "method": "uv run python scripts/run_evaluation.py against the committed synthetic fixture",
+        "result": "18/18 expected outcomes",
+        "scope": "18 trusted and refused cases over the committed synthetic fixture",
+        "observedAt": "2026-07-24T04:25:22Z",
+        "environment": "Local deterministic evaluation",
+        "classification": "synthetic",
+        "execution": "deterministic",
+        "caveat": "The fixture and case set are intentionally bounded and do not establish open-ended semantic correctness.",
+        "counts": {
+          "total": 18,
+          "passed": 18,
+          "failed": 0
+        }
+      },
+      {
+        "id": "deployment.anonymous-live-demo",
+        "kind": "deployment",
+        "claim": "Six status-only public route, fixture-boundary, and deployed-control checks passed for the anonymous live demo.",
+        "source": "evidence/deployment/anonymous-live-demo.json",
+        "method": "HTTP checks with response bodies limited to status and disclosed fixture metadata",
+        "result": "revision 0000007 / 6 checks passed",
+        "scope": "Root, evaluation, examples, safe preview, active fixture boundary, and deployed control configuration",
+        "observedAt": "2026-07-24T04:25:22Z",
+        "environment": "Azure Container Apps anonymous live demo",
+        "classification": "synthetic",
+        "execution": "live",
+        "caveat": "Status-only checks do not establish availability, caller authorization, durable limits, or production readiness.",
+        "counts": {
+          "total": 6,
+          "passed": 6,
+          "failed": 0
+        }
+      },
+      {
+        "id": "security.demo-fixture-boundary",
+        "kind": "security",
+        "claim": "The active public revision reports the committed demo fixture, not the local approved snapshot.",
+        "source": "evidence/deployment/anonymous-live-demo.json",
+        "method": "Verified /v1/status snapshot state and fixture SHA-256",
+        "result": "demo_fixture"
+      },
+      {
+        "id": "security.container-data-boundary",
+        "kind": "security",
+        "claim": "The container build context excludes raw source files and data/approved artifacts while retaining only the disclosed fixture and aggregate evidence.",
+        "source": ".dockerignore and scripts/verify_container_boundary.py",
+        "method": "Build the image and run the boundary verifier inside that image",
+        "result": "verified in Azure-built image sha256:fb11bdf14321e18fb835670154b737a3d4ff6d81c5c29ebba4f79c9c47bc7e53"
+      },
+      {
+        "id": "disclosure.synthetic-data",
+        "kind": "disclosure",
+        "claim": "The deployed dataset is hand-authored synthetic data and source account identifiers are excluded from the approved snapshot contract.",
+        "source": "data/PROVENANCE.md and data/source_manifest.json",
+        "method": "Versioned provenance, license, source checksums, and curated-field classification",
+        "result": "synthetic / CC BY 4.0 source attribution"
+      },
+      {
+        "id": "integration.entra-proposal-lifecycle",
+        "kind": "review",
+        "claim": "An owner-authenticated local lifecycle generated, approved once, revalidated, and executed a bounded aggregate proposal.",
+        "source": "docs/HANDOFF.md",
+        "method": "Status-level local integration verification using Microsoft Entra ID; no token, question, SQL, or rows retained",
+        "result": "verified locally; not a public SLO"
+      }
+    ],
+    "story": {
+      "recruiterSummary": "Natural-language analytics is attractive because it lowers the barrier to data access, but executing model-generated SQL directly creates obvious security, privacy, and correctness risk. This project turns that risky shortcut into a reviewable workflow: the model may propose, a deterministic policy engine must validate, and a person must approve one bounded read-only preview.",
+      "technicalNarrative": "FastAPI separates proposal from execution. Azure OpenAI receives only an identifier-excluding semantic catalog through Microsoft Entra authentication; SQLGlot checks statement shape, functions, tables, columns, identifier projection, and ranking semantics; DuckDB EXPLAIN and resource limits run before a short-lived approval can be consumed. Execution revalidates both SQL policy and the active snapshot checksum.",
+      "scalabilityRoadmap": [
+        "Replace ephemeral SQLite with an owner-approved transactional store and prove cross-replica single-use consumption",
+        "Enable single-tenant Microsoft Entra authentication and verify unauthenticated denial",
+        "Replace process-local rate and proposal budgets with durable distributed controls before multi-replica hosting",
+        "Add alerting, budget ownership, availability/error monitoring, and an owner-approved load envelope",
+        "Expand semantic evaluation with reviewer-approved equivalent SQL rather than literal query matching"
+      ],
+      "executiveSummary": "A guarded Text-to-SQL first demo that makes model output inspectable, evidence-linked, and explicitly non-production.",
+      "intendedUser": "A data analyst or technical reviewer evaluating governed natural-language access to a classified synthetic payments model.",
+      "example": {
+        "title": "Generate, review, and approve one bounded query",
+        "steps": [
+          "Choose or enter an analytical question over the disclosed semantic catalog",
+          "Inspect proposed SQL, assumptions, referenced fields, policy checks, and EXPLAIN summary",
+          "Approve one short-lived token-bound execution or let the system refuse the request",
+          "Review a maximum 100-row preview that excludes identifier-like fields"
+        ]
+      },
+      "technologyDecisions": [
+        {
+          "technology": "Azure OpenAI with Microsoft Entra ID",
+          "rationale": "Keeps provider credentials out of the repository and supports managed identity in Azure.",
+          "alternative": "Static API keys",
+          "tradeoff": "Identity and role configuration add operational setup but remove long-lived application secrets."
+        },
+        {
+          "technology": "SQLGlot plus DuckDB EXPLAIN",
+          "rationale": "Provides parser-backed structural policy and database-level validation before execution.",
+          "alternative": "Regex filtering or direct model execution",
+          "tradeoff": "The policy intentionally rejects ambiguous or unsupported SQL and still requires semantic human review."
+        },
+        {
+          "technology": "Ephemeral SQLite approval store",
+          "rationale": "Provides five-minute single-use approval persistence for a one-replica anonymous demo.",
+          "alternative": "Managed transactional database",
+          "tradeoff": "Simple and low-cost, but restart-sensitive and unsuitable for protected multi-replica hosting."
+        }
+      ],
+      "evidence": [
+        {
+          "value": "18/18",
+          "label": "deterministic policy outcomes",
+          "context": "Trusted and refused cases over the committed synthetic fixture.",
+          "method": "Generated evaluation report.",
+          "evidenceRefs": [
+            "evaluation.local-policy"
+          ]
+        },
+        {
+          "value": "6/6",
+          "label": "public status-only checks",
+          "context": "Anonymous live demo routes, active fixture boundary, and deployed control configuration.",
+          "method": "Deployment verification record.",
+          "evidenceRefs": [
+            "deployment.anonymous-live-demo",
+            "security.demo-fixture-boundary"
+          ]
+        }
+      ],
+      "limitations": [
+        "The current endpoint is anonymous and has no caller authorization.",
+        "The deployed rate and proposal-budget controls are process-local and reset after scale-to-zero or restart.",
+        "Approval state is ephemeral and single-replica.",
+        "The model can still propose semantically wrong SQL, so human review remains mandatory.",
+        "The anonymous demo has no automatic expiry; the owner remains responsible for ongoing cost and operational review."
+      ]
+    },
+    "resume": {
+      "bulletCandidates": [
+        {
+          "role": "AI Engineer",
+          "bullet": "Built an approval-gated Text-to-SQL service with Azure OpenAI, Microsoft Entra ID, SQLGlot, FastAPI, and read-only DuckDB execution, matching expected outcomes across 18 deterministic safety and correctness cases.",
+          "evidenceRefs": [
+            "evaluation.local-policy",
+            "integration.entra-proposal-lifecycle"
+          ]
+        },
+        {
+          "role": "Data Engineer",
+          "bullet": "Designed a checksum-pinned synthetic-data release boundary that removes source account identifiers, blocks raw and approved snapshots from the container image, and exposes only classified fields to model context and previews.",
+          "evidenceRefs": [
+            "security.container-data-boundary",
+            "disclosure.synthetic-data"
+          ]
+        },
+        {
+          "role": "Cloud AI Engineer",
+          "bullet": "Delivered and verified a scale-to-zero Azure Container Apps demo with immutable revision, image-digest, fixture-boundary, and deployed-control evidence while explicitly separating anonymous exposure from production readiness.",
+          "evidenceRefs": [
+            "deployment.anonymous-live-demo"
+          ]
+        }
+      ]
+    },
+    "portfolio": {
+      "status": "approved",
+      "approvedAt": "2026-07-24",
+      "featured": false,
+      "sortOrder": 30
+    },
+    "source": {
+      "repository": "vaibhavkhuranaaa/text-to-sql-guardrails",
+      "sourceRef": "c6e8441e401efe6c9214b8231e932c7dc6c1467e",
+      "manifestPath": "portfolio/project.json"
+    }
+  }
+]

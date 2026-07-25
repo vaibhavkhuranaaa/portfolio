@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-25T03:28:43.668Z",
+  "projects": [
+    {
+      "slug": "legal-discovery-intelligence-graph",
+      "title": "Legal Discovery Intelligence Graph",
+      "sourceRef": "20a41a19c145e118a4aea3b7dba5256274bf0714",
+      "bulletCandidates": [
+        {
+          "role": "AI Engineer",
+          "bullet": "Built a deployed Graph RAG investigation workspace with Flask, pgvector, Neo4j, ONNX embeddings, cited evidence, and calibrated refusal, achieving 0.887 strict entity F1 on a 455-document synthetic corpus.",
+          "evidenceRefs": [
+            "evaluation.entity-extraction",
+            "deployment.render-root"
+          ]
+        },
+        {
+          "role": "Data Scientist",
+          "bullet": "Evaluated vector and graph-expanded retrieval by query category, improving relationship-query hit@5 from 0.500 to 0.833 while documenting dense-corpus tradeoffs.",
+          "evidenceRefs": [
+            "evaluation.hybrid-retrieval"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "legal-document-intelligence-rag",
+      "title": "Legal Document Intelligence RAG",
+      "sourceRef": "d18ef4a427dc6db66bd3d12c43cc941d5b1a0ba7",
+      "bulletCandidates": [
+        {
+          "role": "AI Engineer",
+          "bullet": "Built and deployed an Azure RAG workspace using Document Intelligence, AI Search, Azure OpenAI, managed identity, and citation-required generation over a 3,055-chunk public legal corpus.",
+          "evidenceRefs": [
+            "disclosure.public-corpus",
+            "deployment.azure-root"
+          ]
+        },
+        {
+          "role": "Machine Learning Engineer",
+          "bullet": "Versioned and evaluated a 45-question legal retrieval benchmark, recording 1.0 retrieval hit rate@8 and 1.0 citation-provenance validity while explicitly separating those metrics from legal-answer accuracy.",
+          "evidenceRefs": [
+            "evaluation.release-v2"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "text-to-sql-guardrails",
+      "title": "Text-to-SQL Interface with Guardrails and Hallucination Detection",
+      "sourceRef": "c6e8441e401efe6c9214b8231e932c7dc6c1467e",
+      "bulletCandidates": [
+        {
+          "role": "AI Engineer",
+          "bullet": "Built an approval-gated Text-to-SQL service with Azure OpenAI, Microsoft Entra ID, SQLGlot, FastAPI, and read-only DuckDB execution, matching expected outcomes across 18 deterministic safety and correctness cases.",
+          "evidenceRefs": [
+            "evaluation.local-policy",
+            "integration.entra-proposal-lifecycle"
+          ]
+        },
+        {
+          "role": "Data Engineer",
+          "bullet": "Designed a checksum-pinned synthetic-data release boundary that removes source account identifiers, blocks raw and approved snapshots from the container image, and exposes only classified fields to model context and previews.",
+          "evidenceRefs": [
+            "security.container-data-boundary",
+            "disclosure.synthetic-data"
+          ]
+        },
+        {
+          "role": "Cloud AI Engineer",
+          "bullet": "Delivered and verified a scale-to-zero Azure Container Apps demo with immutable revision, image-digest, fixture-boundary, and deployed-control evidence while explicitly separating anonymous exposure from production readiness.",
+          "evidenceRefs": [
+            "deployment.anonymous-live-demo"
+          ]
+        }
+      ]
+    }
+  ]
+}
