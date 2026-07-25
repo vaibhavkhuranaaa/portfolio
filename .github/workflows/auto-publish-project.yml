@@ -37,6 +37,7 @@ jobs:
           git config user.name "${{ github.repository_owner }}"
           git config user.email "${{ github.repository_owner }}@users.noreply.github.com"
           git add scripts/project-registry.mjs README.md assets/approved-project-map.svg public/assets/projects
+          git add -f public/data/approved-projects.json public/data/portfolio_data.json public/data/resume_bullets.json src/content/generated/project-manifests.json
           if git diff --cached --quiet; then
             echo "Verified live catalog is already current."
           else
