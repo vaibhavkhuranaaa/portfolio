@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-25T03:28:43.668Z",
+  "generatedAt": "2026-07-25T04:34:50.151Z",
   "projects": [
     {
       "slug": "legal-discovery-intelligence-graph",
@@ -49,7 +49,7 @@
     {
       "slug": "text-to-sql-guardrails",
       "title": "Text-to-SQL Interface with Guardrails and Hallucination Detection",
-      "sourceRef": "c6e8441e401efe6c9214b8231e932c7dc6c1467e",
+      "sourceRef": "6c6cd48bd9e6faf802369338a6e2fe47c9333e79",
       "bulletCandidates": [
         {
           "role": "AI Engineer",

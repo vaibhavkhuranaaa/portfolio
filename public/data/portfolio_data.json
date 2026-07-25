@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-07-25T03:28:43.668Z",
+  "generatedAt": "2026-07-25T04:34:50.151Z",
   "projects": [
     {
       "slug": "legal-discovery-intelligence-graph",
@@ -187,7 +187,7 @@
     },
     {
       "slug": "text-to-sql-guardrails",
-      "sourceRef": "c6e8441e401efe6c9214b8231e932c7dc6c1467e",
+      "sourceRef": "6c6cd48bd9e6faf802369338a6e2fe47c9333e79",
       "exploreUrl": "https://ca-text-sql-guardrails-dev.whitesky-593b85cb.eastus.azurecontainerapps.io",
       "recruiterView": "Natural-language analytics is attractive because it lowers the barrier to data access, but executing model-generated SQL directly creates obvious security, privacy, and correctness risk. This project turns that risky shortcut into a reviewable workflow: the model may propose, a deterministic policy engine must validate, and a person must approve one bounded read-only preview.",
       "hiringManagerView": {
