@@ -9,15 +9,20 @@ const headers = {
   "X-GitHub-Api-Version": "2022-11-28",
   ...(token ? { Authorization: `Bearer ${token}` } : {}),
 };
+const requestTimeoutMs = 15_000;
+
+function request(url, options = {}) {
+  return fetch(url, { ...options, signal: AbortSignal.timeout(requestTimeoutMs) });
+}
 
 async function github(path) {
-  const response = await fetch(`https://api.github.com${path}`, { headers });
+  const response = await request(`https://api.github.com${path}`, { headers });
   if (!response.ok) throw new Error(`GitHub ${path}: ${response.status}`);
   return response.json();
 }
 
 async function raw(repository, sha, path) {
-  const response = await fetch(`https://raw.githubusercontent.com/${repository}/${sha}/${path}`, {
+  const response = await request(`https://raw.githubusercontent.com/${repository}/${sha}/${path}`, {
     headers: token ? { Authorization: `Bearer ${token}` } : undefined,
   });
   if (response.status === 404) return null;
@@ -53,7 +58,7 @@ async function verifiedCandidate(repository, defaultBranch) {
     console.log(`${repository}: skipped because the public demo expired`);
     return { repository, disposition: "remove" };
   }
-  const response = await fetch(release.verification.url, {
+  const response = await request(release.verification.url, {
     headers: { Accept: "application/json", "User-Agent": "portfolio-live-project-sync" },
   });
   if (!response.ok) {
@@ -78,7 +83,12 @@ for (let page = 1; ; page += 1) {
 const retained = new Map(projectRegistry.map((entry) => [entry.repository, entry]));
 const decisions = [];
 for (const repo of repositories) {
-  decisions.push(await verifiedCandidate(repo.full_name, repo.default_branch));
+  try {
+    decisions.push(await verifiedCandidate(repo.full_name, repo.default_branch));
+  } catch (error) {
+    console.log(`${repo.full_name}: retained after verification error (${error.message})`);
+    decisions.push({ repository: repo.full_name, disposition: "retain" });
+  }
 }
 
 const now = new Date().toISOString().slice(0, 10);
