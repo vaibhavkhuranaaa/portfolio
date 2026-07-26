@@ -28,7 +28,7 @@ export const projectRegistry = [
   },
   {
     "repository": "vaibhavkhuranaaa/text-to-sql-guardrails",
-    "sourceRef": "64aa8248467c0baf505b109d58031833bd8a85aa",
+    "sourceRef": "c5024f82af435805c3411344bab0bcbd8fa34378",
     "portfolio": {
       "status": "approved",
       "approvedAt": "2026-07-24",
