@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "repository": "vaibhavkhuranaaa/text-to-sql-guardrails",
-  "sourceRef": "c5024f82af435805c3411344bab0bcbd8fa34378",
+  "sourceRef": "2ab01a63cb2bd24be40d047e71d2495597fbce44",
   "sourcePath": "architecture/system.mmd",
   "sourceSha256": "4b1b03c1c127540205983c49df9b5e5e31349444a33f8cf07b9bd7817f9cc0a8",
   "renderer": "@mermaid-js/mermaid-cli@11.12.0",
-  "svgSha256": "e42348d2a460e91edfe2dcb571f6e16572134cbb7ca0e0efc9ce3827ac0c97a4",
-  "pngSha256": "91b4e2e0b9393cde420c8246e1988132c18b489c4ba4758447a82d423a65afbd"
+  "svgSha256": "e0539d3253080f3727d7562b527751d41635fdde13244b1870bebbfb6798bd94",
+  "pngSha256": "dbe46f7bad1e0234425492a63f43bfb7aad7772e932822703069361ca295f393"
 }
